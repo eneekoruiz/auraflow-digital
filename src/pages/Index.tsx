@@ -1,16 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { SmoothScrollProvider } from "@/components/effects/SmoothScrollProvider";
+import { AuraBackground } from "@/components/effects/AuraBackground";
+import { CustomCursor } from "@/components/effects/CustomCursor";
+import { Nav } from "@/components/landing/Nav";
+import { Hero } from "@/components/landing/Hero";
+import { Manifesto } from "@/components/landing/Manifesto";
+import { BentoServices } from "@/components/landing/BentoServices";
+import { Process } from "@/components/landing/Process";
+import { FAQ } from "@/components/landing/FAQ";
+import { FinalCTA } from "@/components/landing/FinalCTA";
+import { Footer } from "@/components/landing/Footer";
+import { WhatsAppFAB } from "@/components/landing/WhatsAppFAB";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <LanguageProvider>
+      <SmoothScrollProvider>
+        <main className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+          <AuraBackground />
+          <CustomCursor />
+          <Nav />
+          <Hero />
+          <Manifesto />
+          <BentoServices />
+          <Process />
+          <FAQ />
+          <FinalCTA />
+          <Footer />
+          <WhatsAppFAB />
+        </main>
+      </SmoothScrollProvider>
+    </LanguageProvider>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
