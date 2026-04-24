@@ -171,6 +171,6 @@ export const dictionary = {
       message: "Hi, I came from your site. I'd love to chat.",
     },
   },
-} as const;
+};
 
-export type Dict = typeof dictionary["es"];
+export type Dict = (typeof dictionary)["es"];
