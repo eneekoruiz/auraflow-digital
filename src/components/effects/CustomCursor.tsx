@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 /**
- * Custom cursor: a small dot + a ring that follows with spring physics.
- * Grows on hover over interactive elements (button, a, [data-magnetic]).
- * Disabled on coarse pointers (touch).
+ * Custom cursor: dot + spring-following ring. Grows over interactive elements.
+ * Disabled on coarse pointers and prefers-reduced-motion.
  */
 export function CustomCursor() {
   const [enabled, setEnabled] = useState(false);
@@ -13,7 +12,6 @@ export function CustomCursor() {
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-
   const ringX = useSpring(x, { stiffness: 250, damping: 28, mass: 0.6 });
   const ringY = useSpring(y, { stiffness: 250, damping: 28, mass: 0.6 });
 
@@ -39,7 +37,7 @@ export function CustomCursor() {
       const target = e.target as HTMLElement | null;
       if (!target) return;
       const interactive = target.closest(
-        'button, a, [role="button"], [data-magnetic], input, textarea, label, summary',
+        'button, a, [role="button"], [data-magnetic], input, textarea, label, summary, select',
       );
       setHovering(!!interactive);
     };
@@ -62,13 +60,11 @@ export function CustomCursor() {
 
   return (
     <>
-      {/* Dot */}
       <motion.div
         aria-hidden
         className="pointer-events-none fixed left-0 top-0 z-[100] rounded-full bg-aura-ink mix-blend-difference"
         style={{
-          x,
-          y,
+          x, y,
           translateX: "-50%",
           translateY: "-50%",
           width: 6,
@@ -76,7 +72,6 @@ export function CustomCursor() {
           opacity: visible ? 1 : 0,
         }}
       />
-      {/* Ring */}
       <motion.div
         aria-hidden
         className="pointer-events-none fixed left-0 top-0 z-[100] rounded-full border border-aura-ink mix-blend-difference"
@@ -89,7 +84,6 @@ export function CustomCursor() {
           height: hovering ? 56 : 32,
           opacity: visible ? (hovering ? 0.9 : 0.5) : 0,
           transition: "width 0.25s ease, height 0.25s ease, opacity 0.2s ease",
-          backgroundColor: hovering ? "hsl(var(--aura-cream) / 0.05)" : "transparent",
         }}
       />
     </>
