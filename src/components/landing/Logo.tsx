@@ -6,15 +6,9 @@ interface Props {
   invert?: boolean;
 }
 
-/**
- * Monogram logo. Two initials in a serif display face — change the
- * INITIALS constant below to update the brand mark site-wide.
- */
-const INITIALS = "es"; // ← edit this to your initials
+const INITIALS = "es"; // ← edit to your initials
 
 export function Logo({ className, invert }: Props) {
-  // language is unused here but the hook keeps re-renders consistent
-  // when language changes (so screen readers re-read).
   useLang();
   return (
     <a
@@ -22,12 +16,12 @@ export function Logo({ className, invert }: Props) {
       aria-label="Inicio"
       className={cn(
         "group inline-flex items-end gap-1 leading-none",
-        invert ? "text-aura-cream" : "text-aura-ink",
+        invert ? "text-white" : "text-aura-ink",
         className,
       )}
     >
       <span className="font-display text-3xl tracking-tighter">{INITIALS}</span>
-      <span className="mb-[0.35rem] block h-1.5 w-1.5 rounded-full bg-aura-orange transition-transform duration-500 group-hover:scale-150" />
+      <span className="mb-[0.4rem] block h-1.5 w-1.5 rounded-full bg-aura-peach transition-transform duration-500 group-hover:scale-150" />
     </a>
   );
 }
