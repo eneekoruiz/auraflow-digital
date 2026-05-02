@@ -1,10 +1,12 @@
-import { motion } from "framer-motion";
+import { MouseEvent, useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { CalendarClock, Globe, Workflow, ArrowUpRight } from "lucide-react";
 import { useLang } from "@/i18n/LanguageProvider";
 import { cn } from "@/lib/utils";
 
 const ICONS = [Globe, CalendarClock, Workflow] as const;
-const ACCENTS = ["aura-orange", "aura-magenta", "aura-blue"] as const;
+const ACCENTS = ["aura-lavender", "aura-mint", "aura-peach"] as const;
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function BentoServices() {
   const { t } = useLang();
@@ -21,52 +23,17 @@ export function BentoServices() {
           </div>
         </div>
 
-        {/* Bento grid: 1 large + 2 medium */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-5">
           {t.services.cards.map((card, i) => {
             const Icon = ICONS[i];
             const accent = ACCENTS[i];
             const span = i === 0 ? "md:col-span-6 lg:col-span-4" : "md:col-span-3 lg:col-span-2";
-
             return (
-              <motion.article
-                key={card.tag}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className={cn(
-                  "group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-aura-ink/8 bg-aura-cream/55 p-7 backdrop-blur-xl md:p-9",
-                  "min-h-[320px] md:min-h-[380px]",
-                  span,
-                )}
-              >
-                {/* Animated gradient wash */}
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-                  style={{
-                    background: `radial-gradient(600px circle at 30% 0%, hsl(var(--${accent}) / 0.22), transparent 60%)`,
-                  }}
-                />
-                {/* Hairline grid overlay */}
-                <svg
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.06]"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <defs>
-                    <pattern id={`grid-${i}`} width="32" height="32" patternUnits="userSpaceOnUse">
-                      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill={`url(#grid-${i})`} />
-                </svg>
-
+              <TiltCard key={card.tag} className={span} delay={i * 0.1} accent={accent} index={i}>
                 <header className="relative flex items-start justify-between">
                   <span
-                    className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-aura-ink/10 bg-aura-cream/70 transition-transform duration-500 group-hover:-translate-y-1"
-                    style={{ boxShadow: `0 10px 30px -12px hsl(var(--${accent}) / 0.5)` }}
+                    className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-aura-ink/10 bg-white/70 transition-transform duration-500 group-hover:-translate-y-1"
+                    style={{ boxShadow: `0 10px 30px -12px hsl(var(--${accent}) / 0.7)` }}
                   >
                     <Icon className="h-5 w-5" style={{ color: `hsl(var(--${accent}))` }} />
                   </span>
@@ -83,7 +50,7 @@ export function BentoServices() {
                     {card.bullets.map((b) => (
                       <li
                         key={b}
-                        className="rounded-full border border-aura-ink/10 bg-aura-cream/60 px-3 py-1 text-xs text-aura-ink/70"
+                        className="rounded-full border border-aura-ink/10 bg-white/60 px-3 py-1 text-xs text-aura-ink/70"
                       >
                         {b}
                       </li>
@@ -91,16 +58,73 @@ export function BentoServices() {
                   </ul>
                 </div>
 
-                {/* Decorative arrow */}
                 <ArrowUpRight
                   aria-hidden
                   className="absolute right-7 top-7 h-4 w-4 text-aura-ink/30 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-aura-ink"
                 />
-              </motion.article>
+              </TiltCard>
             );
           })}
         </div>
       </div>
     </section>
   );
+
+  function TiltCard({
+    children, className, delay, accent, index,
+  }: { children: React.ReactNode; className?: string; delay: number; accent: string; index: number }) {
+    const ref = useRef<HTMLDivElement>(null);
+    const mx = useMotionValue(0);
+    const my = useMotionValue(0);
+    const sx = useSpring(mx, { stiffness: 200, damping: 20 });
+    const sy = useSpring(my, { stiffness: 200, damping: 20 });
+    const rotateX = useTransform(sy, [-0.5, 0.5], [6, -6]);
+    const rotateY = useTransform(sx, [-0.5, 0.5], [-6, 6]);
+
+    const onMove = (e: MouseEvent<HTMLDivElement>) => {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      mx.set((e.clientX - r.left) / r.width - 0.5);
+      my.set((e.clientY - r.top) / r.height - 0.5);
+    };
+    const onLeave = () => { mx.set(0); my.set(0); };
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7, delay, ease: EASE }}
+        className={cn("[perspective:1200px]", className)}
+      >
+        <motion.article
+          ref={ref}
+          onMouseMove={onMove}
+          onMouseLeave={onLeave}
+          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+          className="group relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-3xl border border-aura-ink/10 bg-white/40 p-7 backdrop-blur-2xl md:min-h-[380px] md:p-9"
+        >
+          {/* Animated frosted gradient wash */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+            style={{
+              background: `radial-gradient(600px circle at 30% 0%, hsl(var(--${accent}) / 0.35), transparent 60%)`,
+            }}
+          />
+          {/* Hairline grid overlay */}
+          <svg aria-hidden className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id={`grid-${index}`} width="32" height="32" patternUnits="userSpaceOnUse">
+                <path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill={`url(#grid-${index})`} />
+          </svg>
+          {children}
+        </motion.article>
+      </motion.div>
+    );
+  }
 }
