@@ -5,6 +5,7 @@ import { useLang } from "@/i18n/LanguageProvider";
 import { Logo } from "./Logo";
 import { MagneticButton } from "@/components/effects/MagneticButton";
 import { LANGUAGES } from "@/i18n/dictionary";
+import { MotionToggle } from "@/components/effects/MotionToggle";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
