@@ -119,6 +119,15 @@ const es = {
     cta: "Volver al inicio",
   },
   loader: { tagline: "Estudio" },
+  seo: {
+    title: "Estudio · Hacemos que lo complejo, desaparezca.",
+    description:
+      "Un pequeño negocio ayudando a otro. Webs y automatización para negocios locales. Tú dedícate a tu negocio, yo automatizo el resto.",
+    ogTitle: "Hacemos que lo complejo,",
+    ogTitleAccent: "desaparezca.",
+    ogTagline: "Webs · Automatización · Negocios locales",
+    locale: "es_ES",
+  },
 };
 
 const en = {
@@ -210,6 +219,15 @@ const en = {
     cta: "Back to home",
   },
   loader: { tagline: "Studio" },
+  seo: {
+    title: "Estudio · We make the complex, disappear.",
+    description:
+      "A small business helping another. Websites and automation for local businesses. You focus on your business, I automate the rest.",
+    ogTitle: "We make the complex,",
+    ogTitleAccent: "disappear.",
+    ogTagline: "Websites · Automation · Local businesses",
+    locale: "en_US",
+  },
 };
 
 export type Dict = typeof es;
