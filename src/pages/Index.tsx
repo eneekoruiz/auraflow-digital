@@ -20,25 +20,27 @@ import { CookieBanner } from "@/components/landing/CookieBanner";
 const Index = () => {
   return (
     <LanguageProvider>
-      <SEO />
-      <SmoothScrollProvider>
-        <PreLoader />
-        <main className="relative min-h-screen overflow-x-clip bg-background text-foreground">
-          <AuraBackground />
-          <CustomCursor />
-          <Nav />
-          <Hero />
-          <Marquee />
-          <Manifesto />
-          <BentoServices />
-          <Process />
-          <FAQ />
-          <FinalCTA />
-          <Footer />
-          <WhatsAppFAB />
-          <CookieBanner />
-        </main>
-      </SmoothScrollProvider>
+      <MotionPreferenceProvider>
+        <SEO />
+        <SmoothScrollProvider>
+          <PreLoader />
+          <main className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+            <AuraBackground />
+            <CustomCursor />
+            <Nav />
+            <Hero />
+            <Marquee />
+            <Manifesto />
+            <BentoServices />
+            <Process />
+            <FAQ />
+            <FinalCTA />
+            <Footer />
+            <WhatsAppFAB />
+            <CookieBanner />
+          </main>
+        </SmoothScrollProvider>
+      </MotionPreferenceProvider>
     </LanguageProvider>
   );
 };
