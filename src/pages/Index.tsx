@@ -1,4 +1,5 @@
 import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { SEO } from "@/seo/SEO";
 import { SmoothScrollProvider } from "@/components/effects/SmoothScrollProvider";
 import { AuraBackground } from "@/components/effects/AuraBackground";
 import { CustomCursor } from "@/components/effects/CustomCursor";
@@ -18,6 +19,7 @@ import { CookieBanner } from "@/components/landing/CookieBanner";
 const Index = () => {
   return (
     <LanguageProvider>
+      <SEO />
       <SmoothScrollProvider>
         <PreLoader />
         <main className="relative min-h-screen overflow-x-clip bg-background text-foreground">
