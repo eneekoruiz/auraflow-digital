@@ -5,6 +5,7 @@ import { useLang } from "@/i18n/LanguageProvider";
 import { Logo } from "./Logo";
 import { MagneticButton } from "@/components/effects/MagneticButton";
 import { LANGUAGES } from "@/i18n/dictionary";
+import { MotionToggle } from "@/components/effects/MotionToggle";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -58,6 +59,9 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-2 md:gap-3">
+            {/* Reduce-motion toggle */}
+            <MotionToggle tone="light" className="hidden sm:inline-flex" />
+
             {/* Language dropdown */}
             <div ref={ref} className="relative">
               <button

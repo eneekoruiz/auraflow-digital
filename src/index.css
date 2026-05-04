@@ -122,6 +122,19 @@
     color: #fff;
   }
 
+  /* User-driven calm mode (mirrors prefers-reduced-motion). Slows decorative
+     CSS animations to a crawl without killing essential transitions. */
+  html[data-motion="reduced"] *,
+  html[data-motion="reduced"] *::before,
+  html[data-motion="reduced"] *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+  }
+  html[data-motion="reduced"] {
+    scroll-behavior: auto;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;

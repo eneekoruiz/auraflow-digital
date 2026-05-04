@@ -1,11 +1,16 @@
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useMotionPreference } from "./MotionPreferenceProvider";
 
 /**
  * Ethereal Aura — pastel orbs (lavender, mint, peach) that float slowly
  * and softly chase the cursor for an "interactive light" feel.
+ *
+ * Honors the global motion preference: when reduced, orbs stop floating
+ * and stop chasing the cursor (still rendered as a soft static gradient).
  */
 export function AuraBackground({ dim = false }: { dim?: boolean }) {
+  const { reduced, multiplier } = useMotionPreference();
   const opacity = dim ? 0.22 : 0.55;
   const ref = useRef<HTMLDivElement>(null);
 
@@ -15,8 +20,7 @@ export function AuraBackground({ dim = false }: { dim?: boolean }) {
   const sy = useSpring(my, { stiffness: 30, damping: 20, mass: 1 });
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (typeof window === "undefined" || reduced) return;
 
     const onMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 80;
@@ -26,7 +30,12 @@ export function AuraBackground({ dim = false }: { dim?: boolean }) {
     };
     window.addEventListener("mousemove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
-  }, [mx, my]);
+  }, [mx, my, reduced]);
+
+  // Scale durations inversely so reduced motion → slower drift; fully off → static.
+  const dur = (base: number) => (multiplier === 0 ? 0 : base / multiplier);
+  const animate = (x: string[], y: string[], s: number[]) =>
+    reduced ? undefined : { translateX: x, translateY: y, scale: s };
 
   return (
     <div
@@ -44,18 +53,14 @@ export function AuraBackground({ dim = false }: { dim?: boolean }) {
           background: "hsl(var(--aura-lavender))",
           filter: "blur(160px)",
           opacity,
-          willChange: "transform",
-          x: sx,
-          y: sy,
+          willChange: reduced ? "auto" : "transform",
+          x: reduced ? 0 : sx,
+          y: reduced ? 0 : sy,
           left: "-15%",
           top: "-20%",
         }}
-        animate={{
-          translateX: ["0%", "10%", "-5%", "0%"],
-          translateY: ["0%", "8%", "-6%", "0%"],
-          scale: [1, 1.12, 0.96, 1],
-        }}
-        transition={{ duration: 38, repeat: Infinity, ease: "easeInOut" }}
+        animate={animate(["0%", "10%", "-5%", "0%"], ["0%", "8%", "-6%", "0%"], [1, 1.12, 0.96, 1])}
+        transition={{ duration: dur(38), repeat: Infinity, ease: "easeInOut" }}
       />
       {/* Mint */}
       <motion.div
@@ -66,18 +71,14 @@ export function AuraBackground({ dim = false }: { dim?: boolean }) {
           background: "hsl(var(--aura-mint))",
           filter: "blur(170px)",
           opacity: opacity * 0.9,
-          willChange: "transform",
-          x: sx,
-          y: sy,
+          willChange: reduced ? "auto" : "transform",
+          x: reduced ? 0 : sx,
+          y: reduced ? 0 : sy,
           right: "-10%",
           top: "10%",
         }}
-        animate={{
-          translateX: ["0%", "-12%", "6%", "0%"],
-          translateY: ["0%", "10%", "-4%", "0%"],
-          scale: [1, 0.92, 1.1, 1],
-        }}
-        transition={{ duration: 46, repeat: Infinity, ease: "easeInOut" }}
+        animate={animate(["0%", "-12%", "6%", "0%"], ["0%", "10%", "-4%", "0%"], [1, 0.92, 1.1, 1])}
+        transition={{ duration: dur(46), repeat: Infinity, ease: "easeInOut" }}
       />
       {/* Peach */}
       <motion.div
@@ -88,18 +89,14 @@ export function AuraBackground({ dim = false }: { dim?: boolean }) {
           background: "hsl(var(--aura-peach))",
           filter: "blur(160px)",
           opacity: opacity * 0.85,
-          willChange: "transform",
-          x: sx,
-          y: sy,
+          willChange: reduced ? "auto" : "transform",
+          x: reduced ? 0 : sx,
+          y: reduced ? 0 : sy,
           left: "20%",
           bottom: "-20%",
         }}
-        animate={{
-          translateX: ["0%", "14%", "-8%", "0%"],
-          translateY: ["0%", "-10%", "4%", "0%"],
-          scale: [1, 1.1, 0.95, 1],
-        }}
-        transition={{ duration: 52, repeat: Infinity, ease: "easeInOut" }}
+        animate={animate(["0%", "14%", "-8%", "0%"], ["0%", "-10%", "4%", "0%"], [1, 1.1, 0.95, 1])}
+        transition={{ duration: dur(52), repeat: Infinity, ease: "easeInOut" }}
       />
       {/* Soften wash to keep contrast */}
       <div
