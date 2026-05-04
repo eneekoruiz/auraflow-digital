@@ -1,5 +1,6 @@
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { SEO } from "@/seo/SEO";
+import { MotionPreferenceProvider } from "@/components/effects/MotionPreferenceProvider";
 import { SmoothScrollProvider } from "@/components/effects/SmoothScrollProvider";
 import { AuraBackground } from "@/components/effects/AuraBackground";
 import { CustomCursor } from "@/components/effects/CustomCursor";
