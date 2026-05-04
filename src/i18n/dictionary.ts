@@ -119,6 +119,11 @@ const es = {
     cta: "Volver al inicio",
   },
   loader: { tagline: "Estudio" },
+  motion: {
+    reduce: "Reducir movimiento",
+    enable: "Activar movimiento",
+    short: { full: "Movimiento", reduced: "Calmado" },
+  },
   seo: {
     title: "Estudio · Hacemos que lo complejo, desaparezca.",
     description:
