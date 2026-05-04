@@ -224,6 +224,11 @@ const en = {
     cta: "Back to home",
   },
   loader: { tagline: "Studio" },
+  motion: {
+    reduce: "Reduce motion",
+    enable: "Enable motion",
+    short: { full: "Motion", reduced: "Calm" },
+  },
   seo: {
     title: "Estudio · We make the complex, disappear.",
     description:
