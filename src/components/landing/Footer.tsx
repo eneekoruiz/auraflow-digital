@@ -1,6 +1,7 @@
 import { useLang } from "@/i18n/LanguageProvider";
 import { Logo } from "./Logo";
 import { LANGUAGES } from "@/i18n/dictionary";
+import { MotionToggle } from "@/components/effects/MotionToggle";
 
 export function Footer() {
   const { t, lang, setLang } = useLang();
@@ -19,8 +20,9 @@ export function Footer() {
           <a href="#faq" className="story-link">{t.nav.faq}</a>
         </nav>
 
-        <div className="flex items-center gap-3">
-          <label htmlFor="footer-lang" className="text-xs uppercase tracking-[0.2em] text-white/40">
+        <div className="flex flex-wrap items-center gap-3">
+          <MotionToggle tone="dark" />
+          <label htmlFor="footer-lang" className="sr-only">
             {t.footer.lang}
           </label>
           <select

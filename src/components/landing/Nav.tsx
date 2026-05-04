@@ -59,6 +59,9 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-2 md:gap-3">
+            {/* Reduce-motion toggle */}
+            <MotionToggle tone="light" className="hidden sm:inline-flex" />
+
             {/* Language dropdown */}
             <div ref={ref} className="relative">
               <button
