@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { useMotionPreference } from "./MotionPreferenceProvider";
 
 interface Props {
   text: string;
@@ -8,16 +9,26 @@ interface Props {
 
 /**
  * Word-by-word brightness reveal driven by scroll progress.
- * Inspired by Apple/Stripe long-form storytelling.
+ * When motion is reduced, the text is shown at full opacity immediately —
+ * no scroll-locked transforms, no per-word fades.
  */
 export function ScrollRevealText({ text, className }: Props) {
   const ref = useRef<HTMLParagraphElement>(null);
+  const { reduced } = useMotionPreference();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "end 0.4"],
   });
 
   const words = text.split(" ");
+
+  if (reduced) {
+    return (
+      <p ref={ref} className={className}>
+        {text}
+      </p>
+    );
+  }
 
   return (
     <p ref={ref} className={className}>
