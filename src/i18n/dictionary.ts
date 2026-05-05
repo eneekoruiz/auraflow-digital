@@ -234,6 +234,8 @@ const en = {
     short: { full: "Motion", reduced: "Calm" },
     state: { full: "Motion mode", reduced: "Calm mode" },
     source: { system: "from your system", user: "your choice", none: "" },
+    shortcutHint: "Shortcut: Shift + M",
+    announce: { full: "Motion mode enabled", reduced: "Calm mode enabled" },
   },
   seo: {
     title: "Estudio · We make the complex, disappear.",
