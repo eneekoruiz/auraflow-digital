@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, forwardRef, MouseEvent, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useMotionPreference } from "./MotionPreferenceProvider";
 
 type Variant = "dark" | "light" | "ghost";
 
@@ -18,12 +19,14 @@ interface MagneticButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElemen
 export const MagneticButton = forwardRef<HTMLButtonElement, MagneticButtonProps>(
   ({ children, className, variant = "dark", strength = 0.35, asLink, href, ...props }, ref) => {
     const localRef = useRef<HTMLButtonElement>(null);
+    const { reduced } = useMotionPreference();
     const x = useMotionValue(0);
     const y = useMotionValue(0);
     const sx = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });
     const sy = useSpring(y, { stiffness: 220, damping: 18, mass: 0.4 });
 
     const onMove = (e: MouseEvent<HTMLButtonElement>) => {
+      if (reduced) return;
       const el = localRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
