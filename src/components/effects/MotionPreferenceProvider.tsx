@@ -88,7 +88,7 @@ export function MotionPreferenceProvider({ children }: { children: ReactNode }) 
   const toggle = useCallback(() => {
     const next: MotionChoice = reduced ? "full" : "reduced";
     setChoice(next);
-    announce(next === "reduced" ? "Calm mode enabled" : "Motion mode enabled");
+    announce(next === "reduced" ? t.motion.announce.reduced : t.motion.announce.full);
   }, [reduced, setChoice, announce]);
 
   // Global keyboard shortcut: Shift + M
