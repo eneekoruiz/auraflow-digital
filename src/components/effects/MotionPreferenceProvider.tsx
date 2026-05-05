@@ -1,4 +1,5 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
+import { useLang } from "@/i18n/LanguageProvider";
 
 /**
  * Motion preference: "auto" follows the OS `prefers-reduced-motion` setting,
@@ -37,6 +38,7 @@ function readStored(): MotionChoice {
 }
 
 export function MotionPreferenceProvider({ children }: { children: ReactNode }) {
+  const { t } = useLang();
   const [choice, setChoiceState] = useState<MotionChoice>("auto");
   const [systemReduced, setSystemReduced] = useState(false);
 
@@ -73,17 +75,68 @@ export function MotionPreferenceProvider({ children }: { children: ReactNode }) 
     : choice === "full" ? (systemReduced ? "user" : "none")
     : systemReduced ? "system" : "none";
 
+  // Live region + last action message for screen readers
+  const liveRef = useRef<HTMLDivElement>(null);
+  const [announcement, setAnnouncement] = useState("");
+
+  const announce = useCallback((msg: string) => {
+    setAnnouncement("");
+    // Force re-announce even if same string
+    requestAnimationFrame(() => setAnnouncement(msg));
+  }, []);
+
+  const toggle = useCallback(() => {
+    const next: MotionChoice = reduced ? "full" : "reduced";
+    setChoice(next);
+    announce(next === "reduced" ? t.motion.announce.reduced : t.motion.announce.full);
+  }, [reduced, setChoice, announce, t]);
+
+  // Global keyboard shortcut: Shift + M
+  // Skipped while typing in form fields or contentEditable to avoid hijacking input.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.defaultPrevented) return;
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      if (!e.shiftKey) return;
+      if (e.key !== "M" && e.key !== "m") return;
+      const t = e.target as HTMLElement | null;
+      if (t) {
+        const tag = t.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || t.isContentEditable) return;
+      }
+      e.preventDefault();
+      toggle();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [toggle]);
+
   const value = useMemo<Ctx>(() => ({
     choice,
     setChoice,
-    toggle: () => setChoice(reduced ? "full" : "reduced"),
+    toggle,
     reduced,
     systemReduced,
     source,
     multiplier: reduced ? 0.25 : 1,
-  }), [choice, reduced, setChoice, systemReduced, source]);
+  }), [choice, reduced, setChoice, toggle, systemReduced, source]);
 
-  return <MotionContext.Provider value={value}>{children}</MotionContext.Provider>;
+  return (
+    <MotionContext.Provider value={value}>
+      {children}
+      {/* Polite live region used by both the toggle button and the keyboard shortcut */}
+      <div
+        ref={liveRef}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {announcement}
+      </div>
+    </MotionContext.Provider>
+  );
 }
 
 export function useMotionPreference() {

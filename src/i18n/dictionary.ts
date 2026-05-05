@@ -125,6 +125,8 @@ const es = {
     short: { full: "Movimiento", reduced: "Calmado" },
     state: { full: "Modo Movimiento", reduced: "Modo Calmado" },
     source: { system: "según tu sistema", user: "elegido por ti", none: "" },
+    shortcutHint: "Atajo: Mayús + M",
+    announce: { full: "Modo Movimiento activado", reduced: "Modo Calmado activado" },
   },
   seo: {
     title: "Estudio · Hacemos que lo complejo, desaparezca.",
@@ -232,6 +234,8 @@ const en = {
     short: { full: "Motion", reduced: "Calm" },
     state: { full: "Motion mode", reduced: "Calm mode" },
     source: { system: "from your system", user: "your choice", none: "" },
+    shortcutHint: "Shortcut: Shift + M",
+    announce: { full: "Motion mode enabled", reduced: "Calm mode enabled" },
   },
   seo: {
     title: "Estudio · We make the complex, disappear.",

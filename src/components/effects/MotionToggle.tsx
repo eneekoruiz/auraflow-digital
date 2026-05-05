@@ -25,6 +25,7 @@ export function MotionToggle({ tone = "light", className }: Props) {
   const sourceLabel = source === "none" ? "" : t.motion.source[source];
   const actionLabel = reduced ? t.motion.enable : t.motion.reduce;
   const ariaLabel = sourceLabel ? `${stateLabel} (${sourceLabel}). ${actionLabel}` : `${stateLabel}. ${actionLabel}`;
+  const titleLabel = `${ariaLabel} — ${t.motion.shortcutHint}`;
 
   const isDark = tone === "dark";
 
@@ -34,7 +35,8 @@ export function MotionToggle({ tone = "light", className }: Props) {
       role="switch"
       aria-checked={reduced}
       aria-label={ariaLabel}
-      title={ariaLabel}
+      aria-keyshortcuts="Shift+M"
+      title={titleLabel}
       onClick={toggle}
       className={cn(
         "group inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors",
