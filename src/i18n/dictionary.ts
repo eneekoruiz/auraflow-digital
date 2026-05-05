@@ -123,6 +123,8 @@ const es = {
     reduce: "Reducir movimiento",
     enable: "Activar movimiento",
     short: { full: "Movimiento", reduced: "Calmado" },
+    state: { full: "Modo Movimiento", reduced: "Modo Calmado" },
+    source: { system: "según tu sistema", user: "elegido por ti", none: "" },
   },
   seo: {
     title: "Estudio · Hacemos que lo complejo, desaparezca.",
