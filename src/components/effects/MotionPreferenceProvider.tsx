@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
+import { useLang } from "@/i18n/LanguageProvider";
 
 /**
  * Motion preference: "auto" follows the OS `prefers-reduced-motion` setting,
