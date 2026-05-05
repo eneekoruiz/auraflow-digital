@@ -38,6 +38,7 @@ function readStored(): MotionChoice {
 }
 
 export function MotionPreferenceProvider({ children }: { children: ReactNode }) {
+  const { t } = useLang();
   const [choice, setChoiceState] = useState<MotionChoice>("auto");
   const [systemReduced, setSystemReduced] = useState(false);
 
