@@ -14,12 +14,17 @@ interface Props {
 
 /**
  * Accessible toggle for the "Reduce motion" preference.
- * Keyboard-friendly (native button + role="switch" + aria-checked).
+ * Shows the current resolved mode (Calm / Motion) and whether it's coming
+ * from the OS or a manual choice.
  */
 export function MotionToggle({ tone = "light", className }: Props) {
-  const { reduced, toggle } = useMotionPreference();
+  const { reduced, source, toggle } = useMotionPreference();
   const { t } = useLang();
-  const label = reduced ? t.motion.enable : t.motion.reduce;
+
+  const stateLabel = reduced ? t.motion.state.reduced : t.motion.state.full;
+  const sourceLabel = source === "none" ? "" : t.motion.source[source];
+  const actionLabel = reduced ? t.motion.enable : t.motion.reduce;
+  const ariaLabel = sourceLabel ? `${stateLabel} (${sourceLabel}). ${actionLabel}` : `${stateLabel}. ${actionLabel}`;
 
   const isDark = tone === "dark";
 
@@ -28,8 +33,8 @@ export function MotionToggle({ tone = "light", className }: Props) {
       type="button"
       role="switch"
       aria-checked={reduced}
-      aria-label={label}
-      title={label}
+      aria-label={ariaLabel}
+      title={ariaLabel}
       onClick={toggle}
       className={cn(
         "group inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors",
@@ -39,6 +44,20 @@ export function MotionToggle({ tone = "light", className }: Props) {
         className,
       )}
     >
+      {/* Live status dot */}
+      <span aria-hidden className="relative inline-flex h-2 w-2">
+        <span
+          className={cn(
+            "absolute inset-0 rounded-full",
+            reduced ? "bg-amber-500" : "bg-emerald-500",
+          )}
+        />
+        {!reduced && (
+          <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500/60" />
+        )}
+      </span>
+
+      {/* Switch track */}
       <span
         aria-hidden
         className={cn(
@@ -56,6 +75,8 @@ export function MotionToggle({ tone = "light", className }: Props) {
           )}
         />
       </span>
+
+      {/* Resolved state + source */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
           key={reduced ? "reduced" : "full"}
@@ -66,9 +87,23 @@ export function MotionToggle({ tone = "light", className }: Props) {
           className="hidden items-center gap-1.5 sm:inline-flex"
         >
           {reduced ? <Sparkles className="h-3 w-3" /> : <Zap className="h-3 w-3" />}
-          {reduced ? t.motion.short.reduced : t.motion.short.full}
+          <span>{reduced ? t.motion.short.reduced : t.motion.short.full}</span>
+          {sourceLabel && (
+            <span
+              className={cn(
+                "rounded-full px-1.5 py-px text-[9px] font-medium normal-case tracking-normal",
+                source === "system"
+                  ? isDark ? "bg-white/10 text-white/60" : "bg-aura-ink/10 text-aura-ink/60"
+                  : isDark ? "bg-emerald-400/15 text-emerald-200" : "bg-emerald-500/15 text-emerald-700",
+              )}
+            >
+              {source === "system" ? "OS" : "Manual"}
+            </span>
+          )}
         </motion.span>
       </AnimatePresence>
+
+      <span className="sr-only" aria-live="polite">{stateLabel}</span>
     </button>
   );
 }
