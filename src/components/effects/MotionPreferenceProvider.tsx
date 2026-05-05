@@ -16,6 +16,10 @@ interface Ctx {
   setChoice: (c: MotionChoice) => void;
   toggle: () => void;
   reduced: boolean;
+  /** True when the OS reports prefers-reduced-motion. */
+  systemReduced: boolean;
+  /** What's driving the current `reduced` value. */
+  source: "system" | "user" | "none";
   /** 0 → fully disabled, 1 → normal speed. Use to scale durations / amplitudes. */
   multiplier: number;
 }
