@@ -89,7 +89,7 @@ export function MotionPreferenceProvider({ children }: { children: ReactNode }) 
     const next: MotionChoice = reduced ? "full" : "reduced";
     setChoice(next);
     announce(next === "reduced" ? t.motion.announce.reduced : t.motion.announce.full);
-  }, [reduced, setChoice, announce]);
+  }, [reduced, setChoice, announce, t]);
 
   // Global keyboard shortcut: Shift + M
   // Skipped while typing in form fields or contentEditable to avoid hijacking input.
