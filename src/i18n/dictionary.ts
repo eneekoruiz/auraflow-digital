@@ -230,6 +230,8 @@ const en = {
     reduce: "Reduce motion",
     enable: "Enable motion",
     short: { full: "Motion", reduced: "Calm" },
+    state: { full: "Motion mode", reduced: "Calm mode" },
+    source: { system: "from your system", user: "your choice", none: "" },
   },
   seo: {
     title: "Estudio · We make the complex, disappear.",
