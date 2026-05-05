@@ -125,6 +125,8 @@ const es = {
     short: { full: "Movimiento", reduced: "Calmado" },
     state: { full: "Modo Movimiento", reduced: "Modo Calmado" },
     source: { system: "según tu sistema", user: "elegido por ti", none: "" },
+    shortcutHint: "Atajo: Mayús + M",
+    announce: { full: "Modo Movimiento activado", reduced: "Modo Calmado activado" },
   },
   seo: {
     title: "Estudio · Hacemos que lo complejo, desaparezca.",
