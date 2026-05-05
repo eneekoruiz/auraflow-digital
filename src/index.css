@@ -134,6 +134,28 @@
   html[data-motion="reduced"] {
     scroll-behavior: auto;
   }
+  /* Neutralise hover micro-animations: scales, translates, magnetic drift,
+     decorative underlines, and pulses become static. */
+  html[data-motion="reduced"] .hover-scale:hover,
+  html[data-motion="reduced"] .hover\:scale-105:hover,
+  html[data-motion="reduced"] .hover\:scale-110:hover,
+  html[data-motion="reduced"] .hover\:-translate-y-1:hover,
+  html[data-motion="reduced"] .hover\:-translate-y-0\.5:hover,
+  html[data-motion="reduced"] .group:hover .group-hover\:scale-105,
+  html[data-motion="reduced"] .group:hover .group-hover\:scale-110,
+  html[data-motion="reduced"] .group:hover .group-hover\:-translate-y-1 {
+    transform: none !important;
+  }
+  html[data-motion="reduced"] .story-link::after,
+  html[data-motion="reduced"] .story-link:hover::after {
+    transition: none !important;
+    transform: scaleX(0) !important;
+  }
+  html[data-motion="reduced"] .animate-ping,
+  html[data-motion="reduced"] .pulse,
+  html[data-motion="reduced"] .animate-pulse {
+    animation: none !important;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
