@@ -55,7 +55,7 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", leave);
       document.removeEventListener("mouseenter", enter);
     };
-  }, [x, y, visible]);
+  }, [x, y, visible, reduced]);
 
   if (!enabled) return null;
 
