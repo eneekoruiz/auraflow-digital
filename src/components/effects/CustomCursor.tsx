@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useMotionPreference } from "./MotionPreferenceProvider";
 
 /**
  * Custom cursor: dot + spring-following ring. Grows over interactive elements.
- * Disabled on coarse pointers and prefers-reduced-motion.
+ * Disabled on coarse pointers and when motion is reduced (OS or user choice).
  */
 export function CustomCursor() {
+  const { reduced } = useMotionPreference();
   const [enabled, setEnabled] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -18,8 +20,7 @@ export function CustomCursor() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mq = window.matchMedia("(pointer: fine)");
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ok = mq.matches && !reduce;
+    const ok = mq.matches && !reduced;
     setEnabled(ok);
     if (!ok) return;
 
