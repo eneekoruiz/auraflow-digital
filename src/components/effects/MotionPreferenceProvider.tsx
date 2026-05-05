@@ -16,6 +16,10 @@ interface Ctx {
   setChoice: (c: MotionChoice) => void;
   toggle: () => void;
   reduced: boolean;
+  /** True when the OS reports prefers-reduced-motion. */
+  systemReduced: boolean;
+  /** What's driving the current `reduced` value. */
+  source: "system" | "user" | "none";
   /** 0 → fully disabled, 1 → normal speed. Use to scale durations / amplitudes. */
   multiplier: number;
 }
@@ -64,13 +68,20 @@ export function MotionPreferenceProvider({ children }: { children: ReactNode }) 
     document.documentElement.dataset.motion = reduced ? "reduced" : "full";
   }, [reduced]);
 
+  const source: Ctx["source"] =
+    choice === "reduced" ? "user"
+    : choice === "full" ? (systemReduced ? "user" : "none")
+    : systemReduced ? "system" : "none";
+
   const value = useMemo<Ctx>(() => ({
     choice,
     setChoice,
     toggle: () => setChoice(reduced ? "full" : "reduced"),
     reduced,
+    systemReduced,
+    source,
     multiplier: reduced ? 0.25 : 1,
-  }), [choice, reduced, setChoice]);
+  }), [choice, reduced, setChoice, systemReduced, source]);
 
   return <MotionContext.Provider value={value}>{children}</MotionContext.Provider>;
 }
