@@ -41,7 +41,7 @@ export function BentoServices() {
                 </header>
 
                 <div className="relative">
-                  <h3 className="mb-3 font-display text-3xl tracking-tight text-aura-ink md:text-4xl lg:text-5xl">
+                  <h3 className="mb-3 font-display text-[clamp(1.5rem,5vw,3rem)] leading-tight tracking-tight text-aura-ink">
                     {card.title}
                   </h3>
                   <p className="mb-6 max-w-md text-aura-ink/65 md:text-[15px]">{card.body}</p>
