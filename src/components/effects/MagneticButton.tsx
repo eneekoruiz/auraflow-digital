@@ -58,14 +58,17 @@ export const MagneticButton = forwardRef<HTMLButtonElement, MagneticButtonProps>
     );
 
     if (asLink && href) {
+      const { onClick, ...rest } = props as React.AnchorHTMLAttributes<HTMLAnchorElement> & { onClick?: (e: MouseEvent<HTMLAnchorElement>) => void };
       return (
         <motion.a
           href={href}
           data-magnetic
           onMouseMove={onMove as unknown as (e: MouseEvent<HTMLAnchorElement>) => void}
           onMouseLeave={onLeave}
+          onClick={onClick as unknown as (e: MouseEvent<HTMLAnchorElement>) => void}
           className={styles}
           style={{ x: sx, y: sy }}
+          {...(rest as React.ComponentProps<typeof motion.a>)}
         >
           {children}
         </motion.a>
