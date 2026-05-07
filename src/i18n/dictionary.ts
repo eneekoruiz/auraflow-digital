@@ -125,6 +125,14 @@ const es = {
     cta: "Volver al inicio",
   },
   loader: { tagline: "Estudio" },
+  exit: {
+    eyebrow: "Antes de irte",
+    title: "Auditoría gratis (15 min).",
+    body: "Te digo en una llamada qué automatizarías primero y cuánto tiempo recuperarías. Sin compromiso.",
+    cta: "Reservar mi auditoría",
+    dismiss: "Ahora no",
+  },
+  guarantee: "Sin permanencia · Respuesta en menos de 24 h · Trato directo conmigo",
   motion: {
     reduce: "Reducir movimiento",
     enable: "Activar movimiento",
