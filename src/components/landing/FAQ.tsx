@@ -4,11 +4,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export function FAQ() {
   const { t } = useLang();
   return (
-    <section id="faq" className="relative px-6 py-24 md:py-32">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+    <section id="faq" className="relative px-4 py-20 sm:px-6 sm:py-24 md:py-32">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:gap-12 md:grid-cols-12 md:gap-16">
         <div className="md:col-span-5">
           <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.faq.label}</p>
-          <h2 className="text-balance font-display text-5xl leading-[0.95] tracking-tighter text-aura-ink md:text-6xl">
+          <h2 className="text-balance font-display text-[clamp(2rem,7vw,4rem)] leading-[0.95] tracking-tighter text-aura-ink">
             {t.faq.title}
           </h2>
         </div>
