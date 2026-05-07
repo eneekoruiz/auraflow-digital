@@ -90,6 +90,9 @@ export function FinalCTA() {
             {t.cta.title}
           </h2>
           <p className="mt-6 max-w-md text-white/60 sm:mt-8 md:text-lg">{t.cta.subtitle}</p>
+          <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-xs text-white/70">
+            <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> {t.guarantee}
+          </p>
         </div>
 
         <div className="md:col-span-6">
