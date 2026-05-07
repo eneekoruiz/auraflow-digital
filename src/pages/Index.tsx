@@ -37,15 +37,19 @@ const Index = () => {
             <Nav />
             <Hero />
             <Marquee />
+            <Stats />
             <Manifesto />
             <BentoServices />
             <Process />
+            <Testimonials />
+            <FounderNote />
             <FAQ />
             <FinalCTA />
             <Footer />
             <WhatsAppFAB />
             <CookieBanner />
             <ExitIntent />
+            <StickyMobileCTA />
           </main>
         </SmoothScrollProvider>
       </MotionPreferenceProvider>
