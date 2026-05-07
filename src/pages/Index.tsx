@@ -1,5 +1,6 @@
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { SEO } from "@/seo/SEO";
+import { StructuredData } from "@/seo/StructuredData";
 import { MotionPreferenceProvider } from "@/components/effects/MotionPreferenceProvider";
 import { SmoothScrollProvider } from "@/components/effects/SmoothScrollProvider";
 import { AuraBackground } from "@/components/effects/AuraBackground";
@@ -16,12 +17,14 @@ import { FinalCTA } from "@/components/landing/FinalCTA";
 import { Footer } from "@/components/landing/Footer";
 import { WhatsAppFAB } from "@/components/landing/WhatsAppFAB";
 import { CookieBanner } from "@/components/landing/CookieBanner";
+import { ExitIntent } from "@/components/landing/ExitIntent";
 
 const Index = () => {
   return (
     <LanguageProvider>
       <MotionPreferenceProvider>
         <SEO />
+        <StructuredData />
         <SmoothScrollProvider>
           <PreLoader />
           <main className="relative min-h-screen overflow-x-clip bg-background text-foreground">
@@ -38,6 +41,7 @@ const Index = () => {
             <Footer />
             <WhatsAppFAB />
             <CookieBanner />
+            <ExitIntent />
           </main>
         </SmoothScrollProvider>
       </MotionPreferenceProvider>

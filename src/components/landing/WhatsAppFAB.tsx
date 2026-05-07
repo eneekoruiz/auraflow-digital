@@ -1,12 +1,53 @@
+import { useEffect, useState } from "react";
 import { useLang } from "@/i18n/LanguageProvider";
 import { motion } from "framer-motion";
+import { track } from "@/lib/analytics";
 
 // Replace with your real WhatsApp number (international format, no "+")
 const WHATSAPP_NUMBER = "34600000000";
 
+const SECTION_LABELS: Record<string, string> = {
+  top: "Inicio",
+  services: "Servicios",
+  process: "Proceso",
+  faq: "FAQ",
+  contact: "Contacto",
+};
+
 export function WhatsAppFAB() {
   const { t, lang } = useLang();
-  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t.whatsapp.message)}`;
+  const [section, setSection] = useState<string>("top");
+
+  // Track which section is in view to tailor the WhatsApp opening message —
+  // contextual prefilled messages have been shown to increase reply rates
+  // by reducing typing friction (chat-marketing studies, Intercom, Drift).
+  useEffect(() => {
+    const ids = Object.keys(SECTION_LABELS);
+    const els = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => !!el);
+    if (els.length === 0) return;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target.id) setSection(visible.target.id);
+      },
+      { threshold: [0.25, 0.5, 0.75] },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
+  const sectionLabel = SECTION_LABELS[section] ?? "";
+  const baseMessage = t.whatsapp.message;
+  const fullMessage = sectionLabel
+    ? `${baseMessage} (${sectionLabel})`
+    : baseMessage;
+  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(fullMessage)}`;
+
   return (
     <motion.a
       href={href}
@@ -14,6 +55,7 @@ export function WhatsAppFAB() {
       rel="noopener noreferrer"
       aria-label={t.whatsapp.label}
       key={lang}
+      onClick={() => track("whatsapp_click", { section })}
       initial={{ opacity: 0, scale: 0.6 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}

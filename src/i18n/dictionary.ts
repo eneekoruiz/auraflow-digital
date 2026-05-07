@@ -37,7 +37,13 @@ const es = {
     title: ["Hacemos", "que", "lo", "complejo,", "desaparezca."],
     subtitle: "Tú dedícate a tu negocio. Yo automatizo el resto.",
     cta: "Recupera tu tiempo",
+    ctaSecondary: "Cómo funciona",
     scroll: "Desliza",
+    proof: {
+      stars: "5,0 · clientes locales",
+      reply: "Respuesta en <24 h",
+      noContract: "Sin permanencia",
+    },
   },
   marquee: ["Menos estrés", "Más tiempo", "Mayor crecimiento", "Cero jerga", "Hecho a mano"],
   manifesto: {
@@ -119,6 +125,14 @@ const es = {
     cta: "Volver al inicio",
   },
   loader: { tagline: "Estudio" },
+  exit: {
+    eyebrow: "Antes de irte",
+    title: "Auditoría gratis (15 min).",
+    body: "Te digo en una llamada qué automatizarías primero y cuánto tiempo recuperarías. Sin compromiso.",
+    cta: "Reservar mi auditoría",
+    dismiss: "Ahora no",
+  },
+  guarantee: "Sin permanencia · Respuesta en menos de 24 h · Trato directo conmigo",
   motion: {
     reduce: "Reducir movimiento",
     enable: "Activar movimiento",
@@ -146,7 +160,13 @@ const en = {
     title: ["We", "make", "the", "complex,", "disappear."],
     subtitle: "You focus on your business. I automate the rest.",
     cta: "Get your time back",
+    ctaSecondary: "How it works",
     scroll: "Scroll",
+    proof: {
+      stars: "5.0 · local clients",
+      reply: "Reply in <24 h",
+      noContract: "No lock-in",
+    },
   },
   marquee: ["Less stress", "More time", "More growth", "Zero jargon", "Hand-crafted"],
   manifesto: {
@@ -228,6 +248,14 @@ const en = {
     cta: "Back to home",
   },
   loader: { tagline: "Studio" },
+  exit: {
+    eyebrow: "Before you go",
+    title: "Free 15-min audit.",
+    body: "On a quick call I tell you what to automate first and how much time you'd get back. No strings attached.",
+    cta: "Book my audit",
+    dismiss: "Not now",
+  },
+  guarantee: "No lock-in · Reply within 24 h · Direct line to me",
   motion: {
     reduce: "Reduce motion",
     enable: "Enable motion",
