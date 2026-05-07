@@ -37,7 +37,13 @@ const es = {
     title: ["Hacemos", "que", "lo", "complejo,", "desaparezca."],
     subtitle: "Tú dedícate a tu negocio. Yo automatizo el resto.",
     cta: "Recupera tu tiempo",
+    ctaSecondary: "Cómo funciona",
     scroll: "Desliza",
+    proof: {
+      stars: "5,0 · clientes locales",
+      reply: "Respuesta en <24 h",
+      noContract: "Sin permanencia",
+    },
   },
   marquee: ["Menos estrés", "Más tiempo", "Mayor crecimiento", "Cero jerga", "Hecho a mano"],
   manifesto: {
