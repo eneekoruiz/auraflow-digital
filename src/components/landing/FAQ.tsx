@@ -21,7 +21,7 @@ export function FAQ() {
                 value={`item-${i}`}
                 className="border-b border-aura-ink/10"
               >
-                <AccordionTrigger className="py-6 text-left font-display text-2xl tracking-tight text-aura-ink hover:no-underline md:text-3xl">
+                <AccordionTrigger className="py-5 text-left font-display text-xl tracking-tight text-aura-ink hover:no-underline sm:py-6 sm:text-2xl md:text-3xl">
                   {item.q}
                 </AccordionTrigger>
                 <AccordionContent className="pb-6 text-base text-aura-ink/65 md:text-lg">
