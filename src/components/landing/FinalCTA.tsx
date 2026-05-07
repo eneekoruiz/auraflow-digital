@@ -68,7 +68,7 @@ export function FinalCTA() {
   return (
     <section
       id="contact"
-      className="relative isolate overflow-hidden bg-aura-ink px-6 py-32 text-white md:py-48"
+      className="relative isolate overflow-hidden bg-aura-ink px-4 py-24 text-white sm:px-6 sm:py-32 md:py-48"
     >
       {/* Inverted soft aura */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
@@ -82,13 +82,13 @@ export function FinalCTA() {
         />
       </div>
 
-      <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-16 md:grid-cols-12 md:gap-20">
+      <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-12 sm:gap-16 md:grid-cols-12 md:gap-20">
         <div className="md:col-span-6">
           <p className="mb-6 text-xs uppercase tracking-[0.3em] text-white/40">— {t.cta.label}</p>
-          <h2 className="text-balance font-display text-5xl leading-[0.92] tracking-tighter text-white md:text-7xl lg:text-8xl">
+          <h2 className="text-balance font-display text-[clamp(2.25rem,8vw,6rem)] leading-[0.92] tracking-tighter text-white">
             {t.cta.title}
           </h2>
-          <p className="mt-8 max-w-md text-white/60 md:text-lg">{t.cta.subtitle}</p>
+          <p className="mt-6 max-w-md text-white/60 sm:mt-8 md:text-lg">{t.cta.subtitle}</p>
         </div>
 
         <div className="md:col-span-6">

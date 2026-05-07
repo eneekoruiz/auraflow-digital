@@ -11,7 +11,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 pt-24 text-center"
+      className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden px-4 pt-24 text-center sm:px-6"
     >
       <motion.p
         key={`eyebrow-${lang}`}
@@ -27,7 +27,7 @@ export function Hero() {
       {/* Headline — word-by-word reveal */}
       <h1
         key={`title-${lang}`}
-        className="mx-auto max-w-[18ch] text-balance font-display text-[14vw] leading-[0.92] tracking-tighter text-aura-ink sm:text-[10vw] md:text-[8.5vw] lg:text-[7.5rem] xl:text-[9rem]"
+        className="mx-auto max-w-[14ch] text-balance font-display text-[clamp(1.875rem,7.5vw,9rem)] leading-[0.98] tracking-tighter text-aura-ink sm:max-w-[18ch] sm:text-[clamp(3rem,9vw,9rem)] sm:leading-[0.92]"
       >
         {t.hero.title.map((word, i) => (
           <span key={`${word}-${i}`} className="mr-[0.18em] inline-block overflow-hidden align-bottom">

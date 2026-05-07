@@ -12,12 +12,12 @@ export function BentoServices() {
   const { t } = useLang();
 
   return (
-    <section id="services" className="relative px-6 py-24 md:py-32">
+    <section id="services" className="relative px-4 py-20 sm:px-6 sm:py-24 md:py-32">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="mb-10 flex flex-col gap-6 sm:mb-14 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.services.label}</p>
-            <h2 className="max-w-2xl text-balance font-display text-5xl leading-[0.95] tracking-tighter text-aura-ink md:text-6xl lg:text-7xl">
+            <h2 className="max-w-2xl text-balance font-display text-[clamp(2rem,7vw,4.5rem)] leading-[0.95] tracking-tighter text-aura-ink">
               {t.services.title}
             </h2>
           </div>
@@ -41,7 +41,7 @@ export function BentoServices() {
                 </header>
 
                 <div className="relative">
-                  <h3 className="mb-3 font-display text-3xl tracking-tight text-aura-ink md:text-4xl lg:text-5xl">
+                  <h3 className="mb-3 font-display text-[clamp(1.5rem,5vw,3rem)] leading-tight tracking-tight text-aura-ink">
                     {card.title}
                   </h3>
                   <p className="mb-6 max-w-md text-aura-ink/65 md:text-[15px]">{card.body}</p>
@@ -103,7 +103,7 @@ export function BentoServices() {
           onMouseMove={onMove}
           onMouseLeave={onLeave}
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-          className="group relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-3xl border border-aura-ink/10 bg-white/40 p-7 backdrop-blur-2xl md:min-h-[380px] md:p-9"
+          className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-3xl border border-aura-ink/10 bg-white/40 p-6 backdrop-blur-2xl sm:p-7 md:min-h-[380px] md:p-9"
         >
           {/* Animated frosted gradient wash */}
           <div
