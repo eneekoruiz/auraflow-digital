@@ -248,6 +248,14 @@ const en = {
     cta: "Back to home",
   },
   loader: { tagline: "Studio" },
+  exit: {
+    eyebrow: "Before you go",
+    title: "Free 15-min audit.",
+    body: "On a quick call I tell you what to automate first and how much time you'd get back. No strings attached.",
+    cta: "Book my audit",
+    dismiss: "Not now",
+  },
+  guarantee: "No lock-in · Reply within 24 h · Direct line to me",
   motion: {
     reduce: "Reduce motion",
     enable: "Enable motion",
