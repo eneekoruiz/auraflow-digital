@@ -103,7 +103,7 @@ export function BentoServices() {
           onMouseMove={onMove}
           onMouseLeave={onLeave}
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-          className="group relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-3xl border border-aura-ink/10 bg-white/40 p-7 backdrop-blur-2xl md:min-h-[380px] md:p-9"
+          className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-3xl border border-aura-ink/10 bg-white/40 p-6 backdrop-blur-2xl sm:p-7 md:min-h-[380px] md:p-9"
         >
           {/* Animated frosted gradient wash */}
           <div
