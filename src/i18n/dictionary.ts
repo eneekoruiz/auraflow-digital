@@ -293,6 +293,43 @@ const en = {
     dismiss: "Not now",
   },
   guarantee: "No lock-in · Reply within 24 h · Direct line to me",
+  stats: {
+    label: "By the numbers",
+    items: [
+      { value: "+15 h", label: "saved per week, on average" },
+      { value: "<24 h", label: "average reply time" },
+      { value: "98%", label: "of clients come back" },
+      { value: "1", label: "person behind it. Me." },
+    ],
+  },
+  testimonials: {
+    label: "What they say",
+    title: "Small businesses. Big relief.",
+    items: [
+      {
+        quote: "I used to spend two hours a day juggling bookings on WhatsApp. Now they book themselves. Different life.",
+        name: "María Ferrer",
+        role: "Mar Hair Studio · Valencia",
+      },
+      {
+        quote: "I thought automation was for big companies. He built me something simple in a week and my customers feel it.",
+        name: "Jorge Ruiz",
+        role: "Bistró del Carmen · Madrid",
+      },
+      {
+        quote: "Zero jargon. Explained everything like I was 80. And it has worked from day one.",
+        name: "Lucía Navarro",
+        role: "Fisio Centro · Sevilla",
+      },
+    ],
+  },
+  founder: {
+    label: "Who's behind this",
+    name: "Hi, it's me.",
+    body: "I'm not an agency. I'm one person. I take every project from start to finish. If you write, I reply. If something breaks, I fix it. That's why I only take a handful of projects each month.",
+    signature: "— Estudio",
+  },
+  stickyCta: "Let's talk",
   motion: {
     reduce: "Reduce motion",
     enable: "Enable motion",
