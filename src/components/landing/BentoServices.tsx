@@ -12,12 +12,12 @@ export function BentoServices() {
   const { t } = useLang();
 
   return (
-    <section id="services" className="relative px-6 py-24 md:py-32">
+    <section id="services" className="relative px-4 py-20 sm:px-6 sm:py-24 md:py-32">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="mb-10 flex flex-col gap-6 sm:mb-14 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.services.label}</p>
-            <h2 className="max-w-2xl text-balance font-display text-5xl leading-[0.95] tracking-tighter text-aura-ink md:text-6xl lg:text-7xl">
+            <h2 className="max-w-2xl text-balance font-display text-[clamp(2rem,7vw,4.5rem)] leading-[0.95] tracking-tighter text-aura-ink">
               {t.services.title}
             </h2>
           </div>
