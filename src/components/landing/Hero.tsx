@@ -11,7 +11,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 pt-24 text-center"
+      className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden px-4 pt-24 text-center sm:px-6"
     >
       <motion.p
         key={`eyebrow-${lang}`}
