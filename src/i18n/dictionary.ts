@@ -152,7 +152,13 @@ const en = {
     title: ["We", "make", "the", "complex,", "disappear."],
     subtitle: "You focus on your business. I automate the rest.",
     cta: "Get your time back",
+    ctaSecondary: "How it works",
     scroll: "Scroll",
+    proof: {
+      stars: "5.0 · local clients",
+      reply: "Reply in <24 h",
+      noContract: "No lock-in",
+    },
   },
   marquee: ["Less stress", "More time", "More growth", "Zero jargon", "Hand-crafted"],
   manifesto: {
