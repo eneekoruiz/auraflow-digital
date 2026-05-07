@@ -66,7 +66,7 @@ export function Hero() {
         <MagneticButton
           asLink
           href="#contact"
-          variant="dark"
+          variant="warm"
           className="px-8 py-4 text-base sm:px-9 sm:py-5"
           onClick={() => track("cta_click", { location: "hero", variant: "primary" })}
         >
