@@ -27,7 +27,7 @@ export function Hero() {
       {/* Headline — word-by-word reveal */}
       <h1
         key={`title-${lang}`}
-        className="mx-auto max-w-[14ch] text-balance font-display text-[clamp(2.75rem,12vw,9rem)] leading-[0.95] tracking-tighter text-aura-ink sm:max-w-[18ch] sm:leading-[0.92]"
+        className="mx-auto max-w-[14ch] text-balance break-words font-display text-[clamp(2.25rem,9.5vw,9rem)] leading-[0.95] tracking-tighter text-aura-ink sm:max-w-[18ch] sm:leading-[0.92]"
       >
         {t.hero.title.map((word, i) => (
           <span key={`${word}-${i}`} className="mr-[0.18em] inline-block overflow-hidden align-bottom">
