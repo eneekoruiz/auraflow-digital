@@ -24,6 +24,7 @@ const Index = () => {
     <LanguageProvider>
       <MotionPreferenceProvider>
         <SEO />
+        <StructuredData />
         <SmoothScrollProvider>
           <PreLoader />
           <main className="relative min-h-screen overflow-x-clip bg-background text-foreground">
