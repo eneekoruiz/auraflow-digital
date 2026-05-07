@@ -58,7 +58,7 @@ export const MagneticButton = forwardRef<HTMLButtonElement, MagneticButtonProps>
     );
 
     if (asLink && href) {
-      const onClick = (props as { onClick?: (e: MouseEvent<HTMLAnchorElement>) => void }).onClick;
+      const onClick = (props as unknown as { onClick?: (e: MouseEvent<HTMLAnchorElement>) => void }).onClick;
       return (
         <motion.a
           href={href}
