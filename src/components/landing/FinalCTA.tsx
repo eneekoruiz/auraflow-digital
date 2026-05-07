@@ -5,8 +5,9 @@ import { useLang } from "@/i18n/LanguageProvider";
 import { MagneticButton } from "@/components/effects/MagneticButton";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
