@@ -41,6 +41,7 @@ const Index = () => {
             <Footer />
             <WhatsAppFAB />
             <CookieBanner />
+            <ExitIntent />
           </main>
         </SmoothScrollProvider>
       </MotionPreferenceProvider>
