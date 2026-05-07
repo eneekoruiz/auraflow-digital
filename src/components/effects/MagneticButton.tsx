@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useMotionPreference } from "./MotionPreferenceProvider";
 
-type Variant = "dark" | "light" | "ghost";
+type Variant = "dark" | "light" | "ghost" | "warm";
 
 interface MagneticButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onAnimationStart" | "onDrag" | "onDragEnd" | "onDragStart"> {
   variant?: Variant;
