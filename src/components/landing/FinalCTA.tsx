@@ -57,6 +57,7 @@ export function FinalCTA() {
       });
       if (error) throw error;
       setDone(true);
+      track("lead_submitted", { project: parsed.data.project, language: lang });
       toast.success(t.cta.success);
     } catch (err) {
       console.error(err);
