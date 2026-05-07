@@ -18,6 +18,10 @@ import { Footer } from "@/components/landing/Footer";
 import { WhatsAppFAB } from "@/components/landing/WhatsAppFAB";
 import { CookieBanner } from "@/components/landing/CookieBanner";
 import { ExitIntent } from "@/components/landing/ExitIntent";
+import { Stats } from "@/components/landing/Stats";
+import { Testimonials } from "@/components/landing/Testimonials";
+import { FounderNote } from "@/components/landing/FounderNote";
+import { StickyMobileCTA } from "@/components/landing/StickyMobileCTA";
 
 const Index = () => {
   return (
@@ -33,15 +37,19 @@ const Index = () => {
             <Nav />
             <Hero />
             <Marquee />
+            <Stats />
             <Manifesto />
             <BentoServices />
             <Process />
+            <Testimonials />
+            <FounderNote />
             <FAQ />
             <FinalCTA />
             <Footer />
             <WhatsAppFAB />
             <CookieBanner />
             <ExitIntent />
+            <StickyMobileCTA />
           </main>
         </SmoothScrollProvider>
       </MotionPreferenceProvider>

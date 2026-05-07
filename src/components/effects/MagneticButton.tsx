@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useMotionPreference } from "./MotionPreferenceProvider";
 
-type Variant = "dark" | "light" | "ghost";
+type Variant = "dark" | "light" | "ghost" | "warm";
 
 interface MagneticButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onAnimationStart" | "onDrag" | "onDragEnd" | "onDragStart"> {
   variant?: Variant;
@@ -53,6 +53,7 @@ export const MagneticButton = forwardRef<HTMLButtonElement, MagneticButtonProps>
       variant === "dark" && "bg-aura-ink text-aura-cream hover:bg-aura-ink/90",
       variant === "light" && "bg-aura-cream text-aura-ink hover:bg-aura-cream/90",
       variant === "ghost" && "text-aura-ink hover:bg-aura-ink/5",
+      variant === "warm" && "bg-aura-ink text-white shadow-[0_18px_40px_-18px_hsl(var(--aura-peach)/0.9),0_8px_24px_-12px_hsl(var(--aura-lavender)/0.6)] hover:shadow-[0_22px_50px_-18px_hsl(var(--aura-peach)/1),0_10px_30px_-12px_hsl(var(--aura-lavender)/0.7)] before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r before:from-aura-peach/20 before:via-transparent before:to-aura-lavender/20 before:opacity-0 before:transition-opacity hover:before:opacity-100",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-ink/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       className,
     );

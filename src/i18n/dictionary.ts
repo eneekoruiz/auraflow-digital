@@ -133,6 +133,43 @@ const es = {
     dismiss: "Ahora no",
   },
   guarantee: "Sin permanencia · Respuesta en menos de 24 h · Trato directo conmigo",
+  stats: {
+    label: "En cifras",
+    items: [
+      { value: "+15 h", label: "recuperadas a la semana, de media" },
+      { value: "<24 h", label: "tiempo de respuesta" },
+      { value: "98%", label: "clientes que repiten" },
+      { value: "1", label: "persona detrás. Yo." },
+    ],
+  },
+  testimonials: {
+    label: "Lo que dicen",
+    title: "Pequeños negocios. Grandes alivios.",
+    items: [
+      {
+        quote: "Antes pasaba dos horas al día gestionando reservas por WhatsApp. Ahora se reservan solas. Es otra vida.",
+        name: "María Ferrer",
+        role: "Peluquería Mar · Valencia",
+      },
+      {
+        quote: "Pensaba que automatizar era para grandes. Me montó algo simple, en una semana, y mis clientes lo notan.",
+        name: "Jorge Ruiz",
+        role: "Bistró del Carmen · Madrid",
+      },
+      {
+        quote: "Cero jerga. Me explicó todo como si tuviera 80 años. Y funciona desde el primer día.",
+        name: "Lucía Navarro",
+        role: "Fisio Centro · Sevilla",
+      },
+    ],
+  },
+  founder: {
+    label: "Quién está detrás",
+    name: "Hola, soy yo.",
+    body: "No soy una agencia. Soy una persona. Cada proyecto lo llevo yo, de principio a fin. Si me escribes, te respondo yo. Si algo se rompe, lo arreglo yo. Por eso solo cojo unos pocos proyectos al mes.",
+    signature: "— Estudio",
+  },
+  stickyCta: "Hablemos",
   motion: {
     reduce: "Reducir movimiento",
     enable: "Activar movimiento",
@@ -256,6 +293,43 @@ const en = {
     dismiss: "Not now",
   },
   guarantee: "No lock-in · Reply within 24 h · Direct line to me",
+  stats: {
+    label: "By the numbers",
+    items: [
+      { value: "+15 h", label: "saved per week, on average" },
+      { value: "<24 h", label: "average reply time" },
+      { value: "98%", label: "of clients come back" },
+      { value: "1", label: "person behind it. Me." },
+    ],
+  },
+  testimonials: {
+    label: "What they say",
+    title: "Small businesses. Big relief.",
+    items: [
+      {
+        quote: "I used to spend two hours a day juggling bookings on WhatsApp. Now they book themselves. Different life.",
+        name: "María Ferrer",
+        role: "Mar Hair Studio · Valencia",
+      },
+      {
+        quote: "I thought automation was for big companies. He built me something simple in a week and my customers feel it.",
+        name: "Jorge Ruiz",
+        role: "Bistró del Carmen · Madrid",
+      },
+      {
+        quote: "Zero jargon. Explained everything like I was 80. And it has worked from day one.",
+        name: "Lucía Navarro",
+        role: "Fisio Centro · Sevilla",
+      },
+    ],
+  },
+  founder: {
+    label: "Who's behind this",
+    name: "Hi, it's me.",
+    body: "I'm not an agency. I'm one person. I take every project from start to finish. If you write, I reply. If something breaks, I fix it. That's why I only take a handful of projects each month.",
+    signature: "— Estudio",
+  },
+  stickyCta: "Let's talk",
   motion: {
     reduce: "Reduce motion",
     enable: "Enable motion",
