@@ -64,6 +64,7 @@ export function FinalCTA() {
     };
   }, []);
 
+  const canNext =
     (step === 0 && data.project.trim().length > 0) ||
     (step === 1 && data.pain.trim().length > 0) ||
     (step === 2 && data.name.trim().length > 0 && /\S+@\S+\.\S+/.test(data.email));
