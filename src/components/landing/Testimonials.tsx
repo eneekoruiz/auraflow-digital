@@ -1,16 +1,27 @@
 import { motion } from "framer-motion";
 import { Quote, Star } from "lucide-react";
 import { useLang } from "@/i18n/LanguageProvider";
-import t1 from "@/assets/testimonial-1.jpg";
-import t2 from "@/assets/testimonial-2.jpg";
-import t3 from "@/assets/testimonial-3.jpg";
 
-const photos = [t1, t2, t3];
+// Pure CSS monogram palette — semantic tokens kept for theme coherence.
+const monograms = [
+  { bg: "bg-aura-peach/25", ring: "ring-aura-peach/40", text: "text-aura-ink" },
+  { bg: "bg-aura-lavender/30", ring: "ring-aura-lavender/50", text: "text-aura-ink" },
+  { bg: "bg-aura-ink/10", ring: "ring-aura-ink/20", text: "text-aura-ink" },
+];
+
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? "")
+    .join("");
 
 /**
- * Testimonials with photo, name & business. Faces with eye-contact trigger
- * fusiform-face-area attention (Nielsen, 2010) and increase perceived
- * trust by ~30% vs. text-only quotes (BigCommerce CRO study, 2021).
+ * Typography-only testimonials. Initials inside a soft CSS shape replace
+ * portrait photos — keeps perceived trust (name + role + 5★ rating remain,
+ * which are the strongest credibility signals per Nielsen 2020 trust study)
+ * while reinforcing the brand's minimal, editorial aesthetic.
  */
 export function Testimonials() {
   const { t } = useLang();
@@ -44,14 +55,12 @@ export function Testimonials() {
                 ))}
               </div>
               <figcaption className="flex items-center gap-3 border-t border-aura-ink/10 pt-5">
-                <img
-                  src={photos[i]}
-                  alt={item.name}
-                  width={48}
-                  height={48}
-                  loading="lazy"
-                  className="h-12 w-12 rounded-full object-cover ring-2 ring-white"
-                />
+                <span
+                  aria-hidden
+                  className={`flex h-12 w-12 items-center justify-center rounded-full font-display text-base tracking-tight ring-1 ${monograms[i % monograms.length].bg} ${monograms[i % monograms.length].ring} ${monograms[i % monograms.length].text}`}
+                >
+                  {initials(item.name)}
+                </span>
                 <div className="leading-tight">
                   <div className="font-medium text-aura-ink">{item.name}</div>
                   <div className="text-xs text-aura-ink/50">{item.role}</div>
