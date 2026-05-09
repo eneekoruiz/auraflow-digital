@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { z } from "zod";
 import { useLang } from "@/i18n/LanguageProvider";
@@ -33,6 +33,37 @@ export function FinalCTA() {
   const [done, setDone] = useState(false);
 
   const total = 3;
+  const startedAt = useRef<number | null>(null);
+  const lastStep = useRef(0);
+  const submittedRef = useRef(false);
+
+  // Track each step view + start time
+  useEffect(() => {
+    lastStep.current = step;
+    if (startedAt.current === null) startedAt.current = Date.now();
+    track("lead_form_step", { step: step + 1, total });
+  }, [step]);
+
+  // Track abandonment if the user leaves without submitting
+  useEffect(() => {
+    const reportAbandon = () => {
+      if (submittedRef.current || startedAt.current === null) return;
+      track("lead_form_abandoned", {
+        last_step: lastStep.current + 1,
+        total,
+        time_ms: Date.now() - startedAt.current,
+      });
+      startedAt.current = null; // only once
+    };
+    const onVis = () => { if (document.visibilityState === "hidden") reportAbandon(); };
+    window.addEventListener("pagehide", reportAbandon);
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      window.removeEventListener("pagehide", reportAbandon);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, []);
+
   const canNext =
     (step === 0 && data.project.trim().length > 0) ||
     (step === 1 && data.pain.trim().length > 0) ||
@@ -57,6 +88,7 @@ export function FinalCTA() {
       });
       if (error) throw error;
       setDone(true);
+      submittedRef.current = true;
       track("lead_submitted", { project: parsed.data.project, language: lang });
       toast.success(t.cta.success);
     } catch (err) {

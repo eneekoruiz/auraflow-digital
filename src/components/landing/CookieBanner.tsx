@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLang } from "@/i18n/LanguageProvider";
+import { initAnalytics, track } from "@/lib/analytics";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const KEY = "estudio.cookies";
@@ -21,6 +22,8 @@ export function CookieBanner() {
   const decide = (value: "all" | "essential") => {
     try { localStorage.setItem(KEY, value); } catch { /* noop */ }
     setShow(false);
+    track("consent_decision", { value });
+    if (value === "all") initAnalytics();
   };
 
   return (
