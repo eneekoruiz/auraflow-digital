@@ -22,8 +22,12 @@ import { Stats } from "@/components/landing/Stats";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { FounderNote } from "@/components/landing/FounderNote";
 import { StickyMobileCTA } from "@/components/landing/StickyMobileCTA";
+import { ScrollDepthTracker } from "@/components/effects/ScrollDepthTracker";
+import { useEffect } from "react";
+import { initAnalytics } from "@/lib/analytics";
 
 const Index = () => {
+  useEffect(() => { initAnalytics(); }, []);
   return (
     <LanguageProvider>
       <MotionPreferenceProvider>
@@ -50,6 +54,7 @@ const Index = () => {
             <CookieBanner />
             <ExitIntent />
             <StickyMobileCTA />
+            <ScrollDepthTracker />
           </main>
         </SmoothScrollProvider>
       </MotionPreferenceProvider>
