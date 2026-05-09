@@ -13,6 +13,7 @@ import { Manifesto } from "@/components/landing/Manifesto";
 import { BentoServices } from "@/components/landing/BentoServices";
 import { Process } from "@/components/landing/Process";
 import { FAQ } from "@/components/landing/FAQ";
+import { Pricing } from "@/components/landing/Pricing";
 import { FinalCTA } from "@/components/landing/FinalCTA";
 import { Footer } from "@/components/landing/Footer";
 import { WhatsAppFAB } from "@/components/landing/WhatsAppFAB";
@@ -47,6 +48,7 @@ const Index = () => {
             <Process />
             <Testimonials />
             <FounderNote />
+            <Pricing />
             <FAQ />
             <FinalCTA />
             <Footer />
