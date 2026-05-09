@@ -170,6 +170,55 @@ const es = {
     signature: "— Estudio",
   },
   stickyCta: "Hablemos",
+  pricing: {
+    label: "Paquetes",
+    title: "Precio claro. Sin sorpresas.",
+    subtitle: "Tres formas de empezar. Elige la que encaje. Si no estás seguro, te lo digo yo en la llamada gratuita.",
+    badge: "Más elegido",
+    from: "desde",
+    cta: "Empezar",
+    items: [
+      {
+        name: "Esencial",
+        price: "490 €",
+        tagline: "Tu presencia online, lista en 7 días.",
+        features: [
+          "Web de 1 página, rápida y bonita",
+          "Formulario de contacto + WhatsApp",
+          "SEO básico y dominio configurado",
+          "1 ronda de cambios",
+        ],
+      },
+      {
+        name: "Negocio",
+        price: "1.490 €",
+        tagline: "Web + automatización del día a día.",
+        features: [
+          "Web completa (hasta 5 secciones)",
+          "Reservas o pedidos automáticos",
+          "Respuestas automáticas en WhatsApp",
+          "Conexión con tu calendario o caja",
+          "2 rondas de cambios",
+        ],
+      },
+      {
+        name: "A medida",
+        price: "Hablemos",
+        tagline: "Procesos complejos, integraciones, IA.",
+        features: [
+          "Auditoría completa de tus procesos",
+          "Automatizaciones a medida",
+          "Integraciones con tus herramientas",
+          "Acompañamiento durante 1 mes",
+        ],
+      },
+    ],
+    promise: {
+      label: "Mi compromiso contigo",
+      title: "Si no te ahorra tiempo, no me pagas.",
+      body: "Probamos juntos durante 14 días. Si no notas la diferencia, te devuelvo el dinero. Sin papeleo, sin discusión, sin letra pequeña.",
+    },
+  },
   motion: {
     reduce: "Reducir movimiento",
     enable: "Activar movimiento",
@@ -330,6 +379,55 @@ const en = {
     signature: "— Estudio",
   },
   stickyCta: "Let's talk",
+  pricing: {
+    label: "Packages",
+    title: "Clear pricing. No surprises.",
+    subtitle: "Three ways to start. Pick the one that fits. Not sure? I'll tell you on the free call.",
+    badge: "Most chosen",
+    from: "from",
+    cta: "Get started",
+    items: [
+      {
+        name: "Essential",
+        price: "€490",
+        tagline: "Your online presence, live in 7 days.",
+        features: [
+          "1-page site, fast and beautiful",
+          "Contact form + WhatsApp",
+          "Basic SEO and domain setup",
+          "1 round of changes",
+        ],
+      },
+      {
+        name: "Business",
+        price: "€1,490",
+        tagline: "Website + everyday automation.",
+        features: [
+          "Full site (up to 5 sections)",
+          "Automated bookings or orders",
+          "WhatsApp auto-replies",
+          "Calendar or POS integration",
+          "2 rounds of changes",
+        ],
+      },
+      {
+        name: "Custom",
+        price: "Let's talk",
+        tagline: "Complex processes, integrations, AI.",
+        features: [
+          "Full audit of your processes",
+          "Tailor-made automations",
+          "Integrations with your tools",
+          "1 month of follow-up support",
+        ],
+      },
+    ],
+    promise: {
+      label: "My promise to you",
+      title: "If it doesn't save you time, you don't pay.",
+      body: "We try it together for 14 days. If you don't feel the difference, I refund you. No paperwork, no debate, no fine print.",
+    },
+  },
   motion: {
     reduce: "Reduce motion",
     enable: "Enable motion",
