@@ -183,12 +183,12 @@ export function FAQ() {
                         {item.tag}
                       </span>
                       <span className="flex-1">
-                        <Highlight text={item.q} query={q} />
+                        <Mark text={item.q} query={q} />
                       </span>
                     </span>
                   </AccordionTrigger>
                   <AccordionContent className="pb-6 pl-0 text-base leading-relaxed text-aura-ink/70 md:text-lg md:pl-[5.25rem]">
-                    <Highlight text={item.a} query={q} />
+                    <Mark text={item.a} query={q} />
                   </AccordionContent>
                 </AccordionItem>
               </motion.div>
