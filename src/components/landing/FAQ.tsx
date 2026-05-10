@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search, X } from "lucide-react";
 import { useLang } from "@/i18n/LanguageProvider";
 import {
   Accordion,
@@ -32,7 +32,39 @@ export function FAQ() {
   }, [items]);
 
   const [active, setActive] = useState<string | "all">("all");
-  const filtered = active === "all" ? items : items.filter((i) => i.tag === active);
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = useId();
+  const listId = useId();
+
+  const q = query.trim().toLowerCase();
+  const filtered = useMemo(() => {
+    let list = active === "all" ? items : items.filter((i) => i.tag === active);
+    if (q) list = list.filter((i) => `${i.q} ${i.a} ${i.tag}`.toLowerCase().includes(q));
+    return list;
+  }, [items, active, q]);
+
+  // Debounced analytics on search (only when 2+ chars and stable for 600ms)
+  useEffect(() => {
+    if (q.length < 2) return;
+    const id = window.setTimeout(() => {
+      track("faq_search", { query: q, results: filtered.length });
+    }, 600);
+    return () => window.clearTimeout(id);
+  }, [q, filtered.length]);
+
+  // "/" focuses the search box (skip when typing in another field)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      e.preventDefault();
+      inputRef.current?.focus();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <section id="faq" className="relative px-4 py-20 sm:px-6 sm:py-24 md:py-32">
