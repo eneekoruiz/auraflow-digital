@@ -102,7 +102,7 @@ export function FinalCTA() {
   return (
     <section
       id="contact"
-      className="relative isolate overflow-hidden bg-aura-ink px-4 py-24 text-white sm:px-6 sm:py-32 md:py-48"
+      className="relative isolate overflow-hidden bg-aura-ink px-4 py-16 text-white sm:px-6 sm:py-20 md:py-28"
     >
       {/* Inverted soft aura */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">

@@ -9,7 +9,7 @@ import { PreLoader } from "@/components/effects/PreLoader";
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
 import { Marquee } from "@/components/landing/Marquee";
-import { Manifesto } from "@/components/landing/Manifesto";
+
 import { BentoServices } from "@/components/landing/BentoServices";
 import { Process } from "@/components/landing/Process";
 import { FAQ } from "@/components/landing/FAQ";
@@ -43,12 +43,11 @@ const Index = () => {
             <Hero />
             <Marquee />
             <Stats />
-            <Manifesto />
             <BentoServices />
             <Process />
+            <Pricing />
             <Testimonials />
             <FounderNote />
-            <Pricing />
             <FAQ />
             <FinalCTA />
             <Footer />
