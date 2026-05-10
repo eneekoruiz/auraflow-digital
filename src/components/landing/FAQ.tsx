@@ -282,7 +282,7 @@ function Mark({ text, query }: { text: string; query: string }) {
   return (
     <>
       {parts.map((p, i) =>
-        re.test(p) ? (
+        p.toLowerCase() === query.toLowerCase() ? (
           <mark key={i} className="rounded bg-aura-peach/40 px-0.5 text-aura-ink">{p}</mark>
         ) : (
           <span key={i}>{p}</span>
