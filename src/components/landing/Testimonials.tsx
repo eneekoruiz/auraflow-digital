@@ -26,7 +26,7 @@ const initials = (name: string) =>
 export function Testimonials() {
   const { t } = useLang();
   return (
-    <section className="relative px-4 py-20 sm:px-6 sm:py-28 md:py-36">
+    <section className="relative px-4 py-14 sm:px-6 sm:py-16 md:py-20">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 max-w-2xl">
           <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.testimonials.label}</p>
