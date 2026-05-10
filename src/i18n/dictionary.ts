@@ -87,6 +87,7 @@ const es = {
     label: "Dudas honestas",
     title: "Lo que la gente me pregunta antes de decir sí.",
     cta: { title: "¿Te queda alguna duda?", body: "Pregúntame por WhatsApp en 1 minuto. Sin compromiso.", button: "Resolverla ahora" },
+    search: { placeholder: "Busca tu duda en segundos…", all: "Todas", empty: "No encuentro nada con", clear: "Borrar" },
     items: [
       { tag: "Tiempos", q: "¿En cuánto tiempo lo tendré listo?", a: "Una web sencilla: 7 días. Una web completa: 2 semanas. Una automatización a medida: 2 a 4 semanas. Te doy fechas concretas en la primera llamada y las cumplo. Si no, te aviso antes de que se mueva un día." },
       { tag: "Tiempos", q: "¿Cuánto tiempo me va a quitar a mí?", a: "Una hora la primera semana. Media hora a la semana después. Yo hago el trabajo, tú solo decides. No vas a estar pegado a un Trello." },
@@ -302,6 +303,7 @@ const en = {
     label: "Honest doubts",
     title: "What people ask before saying yes.",
     cta: { title: "Still on the fence?", body: "Ask me on WhatsApp, takes a minute. No strings.", button: "Ask now" },
+    search: { placeholder: "Search your question in seconds…", all: "All", empty: "No matches for", clear: "Clear" },
     items: [
       { tag: "Timing", q: "How fast will it be live?", a: "Simple site: 7 days. Full site: 2 weeks. Custom automation: 2–4 weeks. I commit to dates on the first call and I hit them. If anything slips, you hear from me first." },
       { tag: "Timing", q: "How much of my time will this take?", a: "About an hour the first week. Half an hour a week after that. I do the work, you decide. No Trello board to babysit." },
