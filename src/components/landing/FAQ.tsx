@@ -75,11 +75,42 @@ export function FAQ() {
             {t.faq.title}
           </h2>
 
+          {/* Search box */}
+          <div className="mt-8">
+            <label htmlFor={inputId} className="sr-only">{t.faq.search.placeholder}</label>
+            <div className="group relative flex items-center rounded-full border border-aura-ink/15 bg-white/70 backdrop-blur transition-all focus-within:border-aura-ink/40 focus-within:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.15)]">
+              <Search className="ml-4 h-4 w-4 shrink-0 text-aura-ink/45" aria-hidden />
+              <input
+                ref={inputRef}
+                id={inputId}
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t.faq.search.placeholder}
+                aria-controls={listId}
+                autoComplete="off"
+                className="flex-1 bg-transparent px-3 py-3.5 text-sm text-aura-ink placeholder:text-aura-ink/40 outline-none"
+              />
+              {query ? (
+                <button
+                  type="button"
+                  onClick={() => { setQuery(""); inputRef.current?.focus(); }}
+                  aria-label={t.faq.search.clear}
+                  className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full text-aura-ink/50 transition-colors hover:bg-aura-ink/5 hover:text-aura-ink"
+                >
+                  <X className="h-3.5 w-3.5" aria-hidden />
+                </button>
+              ) : (
+                <kbd className="mr-3 hidden rounded-md border border-aura-ink/15 bg-white/60 px-1.5 py-0.5 font-mono text-[10px] text-aura-ink/45 sm:inline-block">/</kbd>
+              )}
+            </div>
+            <p className="sr-only" aria-live="polite">{filtered.length} results</p>
+          </div>
+
           {/* Filter chips */}
-          <div className="mt-8 flex flex-wrap gap-2">
+          <div className="mt-5 flex flex-wrap gap-2">
             <Chip active={active === "all"} onClick={() => setActive("all")}>
-              {/* Localized "All" — using a generic dot to avoid extra dict keys */}
-              ·
+              {t.faq.search.all}
             </Chip>
             {tags.map((tag) => (
               <Chip
@@ -123,6 +154,7 @@ export function FAQ() {
 
         <div className="md:col-span-7">
           <Accordion
+            id={listId}
             type="single"
             collapsible
             className="w-full"
@@ -135,11 +167,11 @@ export function FAQ() {
           >
             {filtered.map((item, i) => (
               <motion.div
-                key={`${active}-${i}`}
+                key={`${active}-${q}-${i}`}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45, delay: i * 0.04, ease: EASE }}
+                transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.18), ease: EASE }}
               >
                 <AccordionItem
                   value={`item-${i}`}
@@ -150,16 +182,39 @@ export function FAQ() {
                       <span className="mt-2 inline-flex shrink-0 items-center rounded-full bg-aura-ink/5 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-aura-ink/55">
                         {item.tag}
                       </span>
-                      <span className="flex-1">{item.q}</span>
+                      <span className="flex-1">
+                        <Highlight text={item.q} query={q} />
+                      </span>
                     </span>
                   </AccordionTrigger>
                   <AccordionContent className="pb-6 pl-0 text-base leading-relaxed text-aura-ink/70 md:text-lg md:pl-[5.25rem]">
-                    {item.a}
+                    <Highlight text={item.a} query={q} />
                   </AccordionContent>
                 </AccordionItem>
               </motion.div>
             ))}
           </Accordion>
+
+          {/* Empty state */}
+          {filtered.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              className="rounded-3xl border border-dashed border-aura-ink/15 bg-white/40 p-8 text-center"
+            >
+              <p className="text-aura-ink/70">
+                {t.faq.search.empty} <span className="font-medium text-aura-ink">"{query}"</span>.
+              </p>
+              <button
+                type="button"
+                onClick={() => { setQuery(""); setActive("all"); inputRef.current?.focus(); }}
+                className="mt-4 inline-flex items-center gap-2 rounded-full border border-aura-ink/15 bg-white/70 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-aura-ink/70 transition-colors hover:text-aura-ink"
+              >
+                <X className="h-3.5 w-3.5" aria-hidden /> {t.faq.search.clear}
+              </button>
+            </motion.div>
+          )}
 
           {/* Mobile CTA card */}
           <motion.div
