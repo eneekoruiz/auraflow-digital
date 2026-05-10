@@ -1,12 +1,13 @@
-import { motion } from "framer-motion";
-import { Quote, Star } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 import { useLang } from "@/i18n/LanguageProvider";
+import { cn } from "@/lib/utils";
 
-// Pure CSS monogram palette — semantic tokens kept for theme coherence.
 const monograms = [
-  { bg: "bg-aura-peach/25", ring: "ring-aura-peach/40", text: "text-aura-ink" },
-  { bg: "bg-aura-lavender/30", ring: "ring-aura-lavender/50", text: "text-aura-ink" },
-  { bg: "bg-aura-ink/10", ring: "ring-aura-ink/20", text: "text-aura-ink" },
+  { bg: "bg-aura-peach/25", ring: "ring-aura-peach/40" },
+  { bg: "bg-aura-lavender/30", ring: "ring-aura-lavender/50" },
+  { bg: "bg-aura-ink/10", ring: "ring-aura-ink/20" },
 ];
 
 const initials = (name: string) =>
@@ -17,57 +18,187 @@ const initials = (name: string) =>
     .map((p) => p[0]?.toUpperCase() ?? "")
     .join("");
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+const AUTOPLAY_MS = 6500;
+
 /**
- * Typography-only testimonials. Initials inside a soft CSS shape replace
- * portrait photos — keeps perceived trust (name + role + 5★ rating remain,
- * which are the strongest credibility signals per Nielsen 2020 trust study)
- * while reinforcing the brand's minimal, editorial aesthetic.
+ * Soft-rotating testimonial carousel. Framer Motion handles the slide
+ * crossfade; controls follow WAI-ARIA "carousel" pattern: live region,
+ * labelled prev/next, slide picker, and autoplay pauses on hover, focus
+ * and when the user prefers reduced motion.
  */
 export function Testimonials() {
   const { t } = useLang();
+  const items = t.testimonials.items;
+  const count = items.length;
+
+  const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [paused, setPaused] = useState(false);
+  const regionRef = useRef<HTMLDivElement>(null);
+
+  const go = useCallback(
+    (next: number) => {
+      setDirection(next > index || (index === count - 1 && next === 0) ? 1 : -1);
+      setIndex(((next % count) + count) % count);
+    },
+    [index, count],
+  );
+  const prev = useCallback(() => go(index - 1), [go, index]);
+  const next = useCallback(() => go(index + 1), [go, index]);
+
+  // Autoplay (respects reduced-motion + pause states)
+  useEffect(() => {
+    if (paused) return;
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+    const id = window.setInterval(() => {
+      setDirection(1);
+      setIndex((i) => (i + 1) % count);
+    }, AUTOPLAY_MS);
+    return () => window.clearInterval(id);
+  }, [paused, count]);
+
+  // Keyboard nav when the carousel region has focus
+  const onKey = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") { e.preventDefault(); prev(); }
+    if (e.key === "ArrowRight") { e.preventDefault(); next(); }
+  };
+
+  const item = items[index];
+  const mono = monograms[index % monograms.length];
+
   return (
     <section className="relative px-4 py-14 sm:px-6 sm:py-16 md:py-20">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-12 max-w-2xl">
-          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.testimonials.label}</p>
-          <h2 className="text-balance font-display text-[clamp(2rem,7vw,4.5rem)] leading-[0.95] tracking-tighter text-aura-ink">
-            {t.testimonials.title}
-          </h2>
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-2xl">
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.testimonials.label}</p>
+            <h2 className="text-balance font-display text-[clamp(2rem,7vw,4.5rem)] leading-[0.95] tracking-tighter text-aura-ink">
+              {t.testimonials.title}
+            </h2>
+          </div>
+
+          {/* Controls (desktop) */}
+          <div className="hidden items-center gap-2 sm:flex" role="group" aria-label="Carousel controls">
+            <button
+              type="button"
+              onClick={prev}
+              aria-label="Previous testimonial"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-aura-ink/15 bg-white/60 text-aura-ink transition-all hover:-translate-y-0.5 hover:bg-white"
+            >
+              <ChevronLeft className="h-4 w-4" aria-hidden />
+            </button>
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Next testimonial"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-aura-ink/15 bg-white/60 text-aura-ink transition-all hover:-translate-y-0.5 hover:bg-white"
+            >
+              <ChevronRight className="h-4 w-4" aria-hidden />
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {t.testimonials.items.map((item, i) => (
-            <motion.figure
-              key={item.name}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative flex flex-col rounded-3xl border border-aura-ink/10 bg-white/60 p-7 backdrop-blur-xl transition-shadow duration-500 hover:shadow-[0_30px_70px_-30px_rgba(0,0,0,0.18)] sm:p-8"
-            >
-              <Quote className="mb-5 h-6 w-6 text-aura-peach" aria-hidden />
-              <blockquote className="mb-8 flex-1 text-balance text-base leading-relaxed text-aura-ink/85 sm:text-lg">
-                "{item.quote}"
-              </blockquote>
-              <div className="flex items-center gap-1 pb-4 text-aura-peach">
-                {Array.from({ length: 5 }).map((_, s) => (
-                  <Star key={s} className="h-3.5 w-3.5 fill-current" aria-hidden />
-                ))}
-              </div>
-              <figcaption className="flex items-center gap-3 border-t border-aura-ink/10 pt-5">
-                <span
-                  aria-hidden
-                  className={`flex h-12 w-12 items-center justify-center rounded-full font-display text-base tracking-tight ring-1 ${monograms[i % monograms.length].bg} ${monograms[i % monograms.length].ring} ${monograms[i % monograms.length].text}`}
-                >
-                  {initials(item.name)}
-                </span>
-                <div className="leading-tight">
-                  <div className="font-medium text-aura-ink">{item.name}</div>
-                  <div className="text-xs text-aura-ink/50">{item.role}</div>
+        {/* Live region */}
+        <div
+          ref={regionRef}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label={t.testimonials.label}
+          tabIndex={0}
+          onKeyDown={onKey}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+          className="relative overflow-hidden rounded-3xl border border-aura-ink/10 bg-white/60 p-7 backdrop-blur-xl sm:p-10 md:p-14"
+        >
+          <div aria-live="polite" aria-atomic="true" className="relative min-h-[280px] sm:min-h-[240px]">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.figure
+                key={index}
+                custom={direction}
+                initial={{ opacity: 0, x: direction * 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction * -40 }}
+                transition={{ duration: 0.6, ease: EASE }}
+                aria-roledescription="slide"
+                aria-label={`${index + 1} of ${count}`}
+                className="flex flex-col"
+              >
+                <Quote className="mb-5 h-7 w-7 text-aura-peach" aria-hidden />
+                <blockquote className="mb-8 max-w-3xl text-balance font-display text-[clamp(1.25rem,3.2vw,2rem)] leading-[1.25] tracking-tight text-aura-ink">
+                  "{item.quote}"
+                </blockquote>
+                <div className="mb-5 flex items-center gap-1 text-aura-peach" aria-label="5 out of 5 stars">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star key={s} className="h-3.5 w-3.5 fill-current" aria-hidden />
+                  ))}
                 </div>
-              </figcaption>
-            </motion.figure>
-          ))}
+                <figcaption className="flex items-center gap-3">
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "flex h-12 w-12 items-center justify-center rounded-full font-display text-base tracking-tight ring-1 text-aura-ink",
+                      mono.bg,
+                      mono.ring,
+                    )}
+                  >
+                    {initials(item.name)}
+                  </span>
+                  <div className="leading-tight">
+                    <div className="font-medium text-aura-ink">{item.name}</div>
+                    <div className="text-xs text-aura-ink/50">{item.role}</div>
+                  </div>
+                </figcaption>
+              </motion.figure>
+            </AnimatePresence>
+          </div>
+
+          {/* Bottom: dots + mobile arrows */}
+          <div className="mt-8 flex items-center justify-between gap-4 border-t border-aura-ink/10 pt-6">
+            <div className="flex items-center gap-2" role="tablist" aria-label="Select testimonial">
+              {items.map((_, i) => {
+                const active = i === index;
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    aria-label={`Go to testimonial ${i + 1}`}
+                    onClick={() => go(i)}
+                    className={cn(
+                      "h-1.5 rounded-full transition-all duration-500",
+                      active ? "w-8 bg-aura-ink" : "w-3 bg-aura-ink/20 hover:bg-aura-ink/40",
+                    )}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="flex items-center gap-2 sm:hidden">
+              <button
+                type="button"
+                onClick={prev}
+                aria-label="Previous testimonial"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-aura-ink/15 bg-white/70 text-aura-ink"
+              >
+                <ChevronLeft className="h-4 w-4" aria-hidden />
+              </button>
+              <button
+                type="button"
+                onClick={next}
+                aria-label="Next testimonial"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-aura-ink/15 bg-white/70 text-aura-ink"
+              >
+                <ChevronRight className="h-4 w-4" aria-hidden />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
