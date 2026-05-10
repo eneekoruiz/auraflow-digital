@@ -270,3 +270,24 @@ function Chip({
     </button>
   );
 }
+
+function escapeRe(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function Mark({ text, query }: { text: string; query: string }) {
+  if (!query) return <>{text}</>;
+  const re = new RegExp(`(${escapeRe(query)})`, "ig");
+  const parts = text.split(re);
+  return (
+    <>
+      {parts.map((p, i) =>
+        re.test(p) ? (
+          <mark key={i} className="rounded bg-aura-peach/40 px-0.5 text-aura-ink">{p}</mark>
+        ) : (
+          <span key={i}>{p}</span>
+        ),
+      )}
+    </>
+  );
+}
