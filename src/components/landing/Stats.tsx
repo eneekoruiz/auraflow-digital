@@ -11,7 +11,7 @@ export function Stats() {
   return (
     <section
       aria-label={t.stats.label}
-      className="relative border-y border-aura-ink/10 bg-aura-cream/40 px-4 py-12 sm:px-6 sm:py-16"
+      className="relative border-y border-aura-ink/10 bg-aura-cream/40 px-4 py-8 sm:px-6 sm:py-10"
     >
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-4">
         {t.stats.items.map((item, i) => (
