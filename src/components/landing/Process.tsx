@@ -4,7 +4,7 @@ import { useLang } from "@/i18n/LanguageProvider";
 export function Process() {
   const { t } = useLang();
   return (
-    <section id="process" className="relative px-4 py-14 sm:px-6 sm:py-16 md:py-20">
+    <section id="process" className="relative px-4 py-10 sm:px-6 sm:py-12 md:py-16">
       <div className="mx-auto max-w-5xl">
         <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.process.label}</p>
         <h2 className="mb-12 max-w-2xl text-balance font-display text-[clamp(2rem,7vw,4.5rem)] leading-[0.95] tracking-tighter text-aura-ink sm:mb-16">
