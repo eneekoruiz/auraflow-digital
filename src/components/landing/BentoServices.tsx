@@ -12,7 +12,7 @@ export function BentoServices() {
   const { t } = useLang();
 
   return (
-    <section id="services" className="relative px-4 py-14 sm:px-6 sm:py-16 md:py-20">
+    <section id="services" className="relative px-4 py-10 sm:px-6 sm:py-12 md:py-16">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10 flex flex-col gap-6 sm:mb-14 md:flex-row md:items-end md:justify-between">
           <div>
