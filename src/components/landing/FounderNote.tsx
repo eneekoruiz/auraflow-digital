@@ -10,7 +10,7 @@ import founder from "@/assets/founder.jpg";
 export function FounderNote() {
   const { t } = useLang();
   return (
-    <section className="relative px-4 py-14 sm:px-6 sm:py-16 md:py-20">
+    <section className="relative px-4 py-10 sm:px-6 sm:py-12 md:py-16">
       <div className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-16">
         <motion.div
           initial={{ opacity: 0, x: -24 }}
