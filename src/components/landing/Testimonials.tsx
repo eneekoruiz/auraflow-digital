@@ -71,9 +71,9 @@ export function Testimonials() {
   const mono = monograms[index % monograms.length];
 
   return (
-    <section className="relative px-4 py-14 sm:px-6 sm:py-16 md:py-20">
+    <section className="relative px-4 py-8 sm:px-6 sm:py-10 md:py-12">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.testimonials.label}</p>
             <h2 className="text-balance font-display text-[clamp(2rem,7vw,4.5rem)] leading-[0.95] tracking-tighter text-aura-ink">
@@ -114,9 +114,9 @@ export function Testimonials() {
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
           onBlur={() => setPaused(false)}
-          className="relative overflow-hidden rounded-3xl border border-aura-ink/10 bg-white/60 p-7 backdrop-blur-xl sm:p-10 md:p-14"
+          className="relative overflow-hidden rounded-3xl border border-aura-ink/10 bg-white/60 p-5 backdrop-blur-xl sm:p-8 md:p-10"
         >
-          <div aria-live="polite" aria-atomic="true" className="relative min-h-[280px] sm:min-h-[240px]">
+          <div aria-live="polite" aria-atomic="true" className="relative min-h-[200px] sm:min-h-[160px]">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.figure
                 key={index}
@@ -130,7 +130,7 @@ export function Testimonials() {
                 className="flex flex-col"
               >
                 <Quote className="mb-5 h-7 w-7 text-aura-peach" aria-hidden />
-                <blockquote className="mb-8 max-w-3xl text-balance font-display text-[clamp(1.25rem,3.2vw,2rem)] leading-[1.25] tracking-tight text-aura-ink">
+                <blockquote className="mb-5 max-w-3xl text-balance font-display text-[clamp(1.1rem,2.6vw,1.65rem)] leading-[1.3] tracking-tight text-aura-ink">
                   "{item.quote}"
                 </blockquote>
                 <div className="mb-5 flex items-center gap-1 text-aura-peach" aria-label="5 out of 5 stars">
