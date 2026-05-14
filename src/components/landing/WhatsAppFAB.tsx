@@ -59,7 +59,7 @@ export function WhatsAppFAB() {
       initial={{ opacity: 0, scale: 0.6 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="group fixed bottom-6 right-6 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_15px_40px_-10px_rgba(37,211,102,0.6)] sm:inline-flex md:bottom-8 md:right-8 md:h-16 md:w-16"
+      className="group fixed bottom-8 right-8 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_15px_40px_-10px_rgba(37,211,102,0.6)] sm:inline-flex md:bottom-12 md:right-12 md:h-16 md:w-16"
     >
       <span
         aria-hidden

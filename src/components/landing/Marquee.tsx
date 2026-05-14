@@ -23,9 +23,17 @@ export function Marquee() {
   return (
     <section
       aria-hidden
-      className="relative w-full overflow-hidden border-y border-aura-ink/10 py-10"
+      className="relative w-full overflow-hidden border-y border-aura-ink/5 pt-4 pb-12 md:pt-6 md:pb-20"
     >
-      <div className="flex w-max animate-marquee whitespace-nowrap">
+      {/* Premium Linear Edge Masks */}
+      <div className="absolute inset-y-0 left-0 z-10 w-32 bg-gradient-to-r from-background via-background/80 to-transparent md:w-64" />
+      <div className="absolute inset-y-0 right-0 z-10 w-32 bg-gradient-to-l from-background via-background/80 to-transparent md:w-64" />
+
+      <div 
+        className="flex w-max animate-marquee whitespace-nowrap opacity-30 mix-blend-multiply transition-opacity duration-1000 hover:opacity-60"
+        style={{ animationDuration: "60s" }}
+      >
+        {row}
         {row}
         {row}
       </div>

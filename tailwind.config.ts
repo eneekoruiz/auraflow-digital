@@ -87,7 +87,7 @@ export default {
         "fade-in-up": "fade-in-up 0.8s cubic-bezier(0.16,1,0.3,1)",
         "pulse-soft": "pulse-soft 2.4s ease-in-out infinite",
         "ring-pulse": "ring-pulse 2.4s cubic-bezier(0.4,0,0.6,1) infinite",
-        marquee: "marquee 40s linear infinite",
+        marquee: "marquee 30s linear infinite",
       },
     },
   },

@@ -13,7 +13,9 @@ import { Marquee } from "@/components/landing/Marquee";
 import { BentoServices } from "@/components/landing/BentoServices";
 import { Process } from "@/components/landing/Process";
 import { FAQ } from "@/components/landing/FAQ";
+import { ROICalculator } from "@/components/landing/ROICalculator";
 import { Pricing } from "@/components/landing/Pricing";
+import { ComparisonTable } from "@/components/landing/ComparisonTable";
 import { FinalCTA } from "@/components/landing/FinalCTA";
 import { Footer } from "@/components/landing/Footer";
 import { WhatsAppFAB } from "@/components/landing/WhatsAppFAB";
@@ -23,6 +25,7 @@ import { Stats } from "@/components/landing/Stats";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { FounderNote } from "@/components/landing/FounderNote";
 import { StickyMobileCTA } from "@/components/landing/StickyMobileCTA";
+import { ScrollProgressBar } from "@/components/effects/ScrollProgressBar";
 import { ScrollDepthTracker } from "@/components/effects/ScrollDepthTracker";
 import { useEffect } from "react";
 import { initAnalytics } from "@/lib/analytics";
@@ -37,15 +40,18 @@ const Index = () => {
         <SmoothScrollProvider>
           <PreLoader />
           <main className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+            <ScrollProgressBar />
             <AuraBackground />
             <CustomCursor />
             <Nav />
             <Hero />
-            <Marquee />
             <Stats />
             <BentoServices />
+            <Marquee />
             <Process />
+            <ROICalculator />
             <Pricing />
+            <ComparisonTable />
             <Testimonials />
             <FounderNote />
             <FAQ />

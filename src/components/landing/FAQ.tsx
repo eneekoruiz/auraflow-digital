@@ -32,6 +32,7 @@ export function FAQ() {
   const [openItem, setOpenItem] = useState<string | undefined>(undefined);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestion, setActiveSuggestion] = useState(-1);
+  const [showAll, setShowAll] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const firstTriggerRef = useRef<HTMLButtonElement>(null);
@@ -48,15 +49,27 @@ export function FAQ() {
     return list;
   }, [items, active, q]);
 
-  // Autocomplete: tags first, then truncated questions
+  const grouped = useMemo(() => {
+    const map: Record<string, typeof items> = {};
+    filtered.forEach((it) => {
+      if (!map[it.tag]) map[it.tag] = [];
+      map[it.tag].push(it);
+    });
+    return map;
+  }, [filtered]);
+
+  const activeTags = Object.keys(grouped);
+  const displayTags = useMemo(() => {
+    if (showAll || q.length > 0 || active !== "all") return activeTags;
+    return activeTags.slice(0, 2);
+  }, [activeTags, showAll, q, active]);
+
   const suggestions = useMemo(() => {
     const raw = query.trim();
     if (raw.length < 2) return [];
     const low = raw.toLowerCase();
     const out: string[] = [];
-    for (const tag of tags) {
-      if (tag.toLowerCase().includes(low)) out.push(tag);
-    }
+    for (const tag of tags) if (tag.toLowerCase().includes(low)) out.push(tag);
     for (const item of items) {
       if (item.q.toLowerCase().includes(low)) {
         const label = item.q.length > 62 ? item.q.slice(0, 62) + "…" : item.q;
@@ -66,64 +79,17 @@ export function FAQ() {
     return out.slice(0, 6);
   }, [query, items, tags]);
 
-  // Debounced search analytics
-  useEffect(() => {
-    if (q.length < 2) return;
-    const id = window.setTimeout(
-      () => track("faq_search", { query: q, results: filtered.length }),
-      600,
-    );
-    return () => window.clearTimeout(id);
-  }, [q, filtered.length]);
-
-  // Reset accordion when filter/query changes
-  useEffect(() => {
-    setOpenItem(undefined);
-    setActiveSuggestion(-1);
-  }, [active, q]);
-
-  // "/" shortcut focuses search
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
-      const tag = (e.target as HTMLElement | null)?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA") return;
-      e.preventDefault();
-      inputRef.current?.focus();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  // Close suggestions on outside click
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (
-        inputRef.current && !inputRef.current.contains(e.target as Node) &&
-        suggestionsRef.current && !suggestionsRef.current.contains(e.target as Node)
-      ) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, []);
-
   const handleClear = () => {
-    track("faq_search_clear", { had_query: q.length > 0, results_before: filtered.length });
     setQuery("");
     setShowSuggestions(false);
     inputRef.current?.focus();
   };
 
-  const openFirstItem = () => {
-    if (filtered.length === 0) return;
-    setOpenItem("item-0");
+  const applySuggestion = (label: string) => {
+    setQuery(label);
     setShowSuggestions(false);
-    setTimeout(() => {
-      firstTriggerRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      firstTriggerRef.current?.focus();
-    }, 60);
+    setActiveSuggestion(-1);
+    inputRef.current?.focus();
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -144,19 +110,7 @@ export function FAQ() {
         return;
       }
     }
-    if (e.key === "Enter") {
-      e.preventDefault();
-      track("faq_enter_open", { query: q, results: filtered.length });
-      openFirstItem();
-    }
     if (e.key === "Escape") setShowSuggestions(false);
-  };
-
-  const applySuggestion = (label: string) => {
-    setQuery(label);
-    setShowSuggestions(false);
-    setActiveSuggestion(-1);
-    inputRef.current?.focus();
   };
 
   const whatsappFAQHref = (question: string) =>
@@ -164,22 +118,41 @@ export function FAQ() {
       `Hola, tengo una duda sobre: "${question}"`,
     )}`;
 
-  return (
-    <section id="faq" className="relative px-4 py-16 sm:px-6 sm:py-20 md:py-28">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:gap-12 md:grid-cols-12 md:gap-16">
+  useEffect(() => {
+    setOpenItem(undefined);
+    setActiveSuggestion(-1);
+  }, [active, q]);
 
-        {/* ── Left column ─────────────────────────────────────── */}
-        <div className="md:col-span-5">
+  useEffect(() => {
+    if (q.length > 0 || active !== "all") setShowAll(true);
+  }, [q, active]);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (
+        inputRef.current && !inputRef.current.contains(e.target as Node) &&
+        suggestionsRef.current && !suggestionsRef.current.contains(e.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
+  return (
+    <section id="faq" className="relative px-4 py-10 sm:px-6 sm:py-16 md:py-20">
+      <div className="mx-auto w-full max-w-6xl">
+        <header className="mb-16 text-center">
           <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.faq.label}</p>
-          <h2 className="text-balance font-display text-[clamp(2rem,7vw,4rem)] leading-[0.95] tracking-tighter text-aura-ink">
+          <h2 className="text-balance font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.95] tracking-tighter text-aura-ink">
             {t.faq.title}
           </h2>
 
-          {/* Search box */}
-          <div className="relative mt-8">
+          <div className="relative mx-auto mt-10 max-w-xl">
             <label htmlFor={inputId} className="sr-only">{t.faq.search.placeholder}</label>
-            <div className="group relative flex items-center rounded-full border border-aura-ink/15 bg-white/70 backdrop-blur transition-all focus-within:border-aura-ink/40 focus-within:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.15)]">
-              <Search className="ml-4 h-4 w-4 shrink-0 text-aura-ink/45" aria-hidden />
+            <div className="group relative flex items-center rounded-2xl border border-aura-ink/10 bg-white/40 backdrop-blur-xl transition-all focus-within:border-aura-ink/30 focus-within:bg-white/80 focus-within:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)]">
+              <Search className="ml-5 h-4 w-4 shrink-0 text-aura-ink/40" aria-hidden />
               <input
                 ref={inputRef}
                 id={inputId}
@@ -193,228 +166,160 @@ export function FAQ() {
                 onFocus={() => query.trim().length >= 2 && setShowSuggestions(true)}
                 onKeyDown={handleInputKeyDown}
                 placeholder={t.faq.search.placeholder}
-                aria-controls={listId}
-                aria-autocomplete="list"
-                aria-expanded={showSuggestions && suggestions.length > 0}
-                aria-haspopup="listbox"
-                aria-activedescendant={activeSuggestion >= 0 ? `${suggestionsId}-${activeSuggestion}` : undefined}
-                autoComplete="off"
-                className="flex-1 bg-transparent px-3 py-3.5 text-sm text-aura-ink placeholder:text-aura-ink/40 outline-none sm:py-4"
+                className="flex-1 bg-transparent px-4 py-4 text-sm text-aura-ink placeholder:text-aura-ink/30 outline-none md:py-5 md:text-base"
               />
-              {query ? (
-                <button
-                  type="button"
-                  onClick={handleClear}
-                  aria-label={t.faq.search.clear}
-                  className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full text-aura-ink/50 transition-colors hover:bg-aura-ink/5 hover:text-aura-ink"
-                >
-                  <X className="h-3.5 w-3.5" aria-hidden />
+              {query && (
+                <button type="button" onClick={handleClear} className="mr-3 inline-flex h-8 w-8 items-center justify-center rounded-full text-aura-ink/30 transition-colors hover:bg-aura-ink/5 hover:text-aura-ink">
+                  <X className="h-4 w-4" />
                 </button>
-              ) : (
-                <kbd className="mr-3 hidden rounded-md border border-aura-ink/15 bg-white/60 px-1.5 py-0.5 font-mono text-[10px] text-aura-ink/45 sm:inline-block">/</kbd>
               )}
             </div>
 
-            {/* Autocomplete dropdown */}
             <AnimatePresence>
               {showSuggestions && suggestions.length > 0 && (
                 <motion.ul
                   ref={suggestionsRef}
                   id={suggestionsId}
                   role="listbox"
-                  initial={{ opacity: 0, y: -6 }}
+                  initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.18, ease: EASE }}
-                  className="absolute left-0 right-0 top-full z-50 mt-1.5 overflow-hidden rounded-2xl border border-aura-ink/10 bg-white/95 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.2)] backdrop-blur"
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2, ease: EASE }}
+                  className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-aura-ink/10 bg-white/95 shadow-2xl backdrop-blur-xl"
                 >
                   {suggestions.map((s, i) => (
                     <li
                       key={i}
-                      id={`${suggestionsId}-${i}`}
                       role="option"
                       aria-selected={i === activeSuggestion}
                       onMouseDown={(e) => { e.preventDefault(); applySuggestion(s); }}
                       className={cn(
-                        "flex cursor-pointer items-center gap-3 px-4 py-3 text-sm text-aura-ink transition-colors",
-                        i === activeSuggestion ? "bg-aura-peach/15" : "hover:bg-aura-ink/5",
+                        "flex cursor-pointer items-center gap-3 px-5 py-4 text-sm text-aura-ink transition-colors",
+                        i === activeSuggestion ? "bg-aura-peach/10" : "hover:bg-aura-ink/5",
                         i > 0 && "border-t border-aura-ink/5",
                       )}
                     >
-                      <Search className="h-3 w-3 shrink-0 text-aura-ink/30" aria-hidden />
-                      <span className="flex-1 truncate">{s}</span>
+                      <Search className="h-3.5 w-3.5 text-aura-ink/30" />
+                      <span className="truncate">{s}</span>
                     </li>
                   ))}
-                  <li className="border-t border-aura-ink/5 px-4 py-2">
-                    <span className="text-[10px] uppercase tracking-[0.15em] text-aura-ink/35">↵ Enter para abrir el primero</span>
-                  </li>
                 </motion.ul>
               )}
             </AnimatePresence>
-            <p className="sr-only" aria-live="polite">{filtered.length} resultados</p>
           </div>
 
-          {/* Filter chips — larger touch targets on mobile */}
-          <div className="mt-5 flex flex-wrap gap-2">
-            <Chip active={active === "all"} onClick={() => setActive("all")}>
-              {t.faq.search.all}
-            </Chip>
+          <div className="mt-8 flex flex-wrap justify-center gap-2">
+            <Chip active={active === "all"} onClick={() => setActive("all")}>{t.faq.search.all}</Chip>
             {tags.map((tag) => (
-              <Chip
-                key={tag}
-                active={active === tag}
-                onClick={() => { setActive(tag); track("faq_filter", { tag }); }}
-              >
-                {tag}
-              </Chip>
+              <Chip key={tag} active={active === tag} onClick={() => setActive(tag)}>{tag}</Chip>
             ))}
           </div>
+        </header>
 
-          {/* Soft CTA card (desktop) */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6, ease: EASE }}
-            className="mt-10 hidden rounded-3xl border border-aura-ink/10 bg-gradient-to-br from-aura-peach/15 via-white/40 to-aura-lavender/15 p-6 backdrop-blur md:block"
-          >
-            <p className="font-display text-xl tracking-tight text-aura-ink">{t.faq.cta.title}</p>
-            <p className="mt-2 text-sm text-aura-ink/65">{t.faq.cta.body}</p>
-            <div className="mt-5">
-              <MagneticButton
-                asLink
-                href="#contact"
-                variant="dark"
-                className="px-5 py-3 text-sm"
-                onClick={() => track("cta_click", { location: "faq_card" })}
-              >
-                <span className="inline-flex items-center gap-2">
-                  {t.faq.cta.button} <ArrowRight className="h-4 w-4" />
-                </span>
-              </MagneticButton>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* ── Right column — accordion ─────────────────────────── */}
-        <div className="md:col-span-7">
-          <Accordion
-            id={listId}
-            type="single"
-            collapsible
-            value={openItem ?? ""}
-            onValueChange={(v) => {
-              setOpenItem(v || undefined);
-              if (!v) return;
-              const idx = Number(v.replace("item-", ""));
-              const it = filtered[idx];
-              if (it) track("faq_open", { tag: it.tag, q: it.q });
-            }}
-            className="w-full"
-          >
-            {filtered.map((item, i) => (
+        <div className="space-y-16">
+          <AnimatePresence>
+            {displayTags.map((tag) => (
               <motion.div
-                key={`${active}-${q}-${i}`}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.18), ease: EASE }}
+                key={tag}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ 
+                  opacity: { duration: 0.4 },
+                  layout: { duration: 0.5, ease: EASE }
+                }}
+                className="space-y-6"
               >
-                <AccordionItem value={`item-${i}`} className="border-b border-aura-ink/10">
-                  <AccordionTrigger
-                    ref={i === 0 ? firstTriggerRef : undefined}
-                    className="group gap-4 py-5 text-left font-display text-lg tracking-tight text-aura-ink hover:no-underline sm:py-6 sm:text-xl md:text-[1.65rem]"
-                  >
-                    <span className="flex flex-1 items-start gap-3">
-                      <span className="mt-1.5 inline-flex shrink-0 items-center rounded-full bg-aura-ink/5 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-aura-ink/55 sm:mt-2">
-                        {item.tag}
-                      </span>
-                      <span className="flex-1">
-                        <Mark text={item.q} query={q} />
-                      </span>
-                    </span>
-                  </AccordionTrigger>
-
-                  <AccordionContent className="pb-5 pl-0 text-base leading-relaxed text-aura-ink/70 sm:pb-6 md:text-lg md:pl-[5.25rem]">
-                    <Mark text={item.a} query={q} />
-
-                    {/* Contextual WhatsApp button inside every answer */}
-                    <a
-                      href={whatsappFAQHref(item.q)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => track("whatsapp_faq_click", { tag: item.tag, q: item.q })}
-                      className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#25D366]/30 bg-[#25D366]/8 px-3.5 py-1.5 text-xs font-medium text-[#1a9e4c] transition-colors hover:bg-[#25D366]/15"
+                <div className="flex items-center gap-4">
+                  <h3 className="text-xs font-bold uppercase tracking-[0.4em] text-aura-ink/30">{tag}</h3>
+                  <div className="h-px flex-1 bg-aura-ink/5" />
+                </div>
+                
+                <Accordion type="single" collapsible className="w-full space-y-3">
+                  {grouped[tag].map((item, i) => (
+                    <AccordionItem 
+                      key={i} 
+                      value={`item-${tag}-${i}`} 
+                      className="overflow-hidden rounded-2xl border border-aura-ink/5 bg-white/40 transition-all hover:border-aura-ink/10 hover:bg-white/60"
                     >
-                      <svg viewBox="0 0 32 32" className="h-3.5 w-3.5 fill-current" aria-hidden>
-                        <path d="M19.11 17.43c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.18-1.34-.81-.72-1.35-1.61-1.51-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.02-.22-.53-.45-.46-.61-.47-.16-.01-.34-.01-.52-.01-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.29 0 1.35.98 2.66 1.12 2.84.14.18 1.94 2.97 4.71 4.16.66.28 1.17.45 1.57.58.66.21 1.26.18 1.74.11.53-.08 1.6-.65 1.83-1.28.23-.63.23-1.17.16-1.28-.07-.11-.25-.18-.52-.32zM16 4C9.37 4 4 9.37 4 16c0 2.12.55 4.18 1.6 6L4 28l6.18-1.62A12.07 12.07 0 0016 28c6.63 0 12-5.37 12-12S22.63 4 16 4z" />
-                      </svg>
-                      Pregúntame sobre esto
-                    </a>
-                  </AccordionContent>
-                </AccordionItem>
+                      <AccordionTrigger className="px-6 py-5 text-left font-display text-lg tracking-tight text-aura-ink hover:no-underline md:text-xl">
+                        <Mark text={item.q} query={q} />
+                      </AccordionTrigger>
+                      <AccordionContent className="px-6 pb-6 text-base leading-relaxed text-aura-ink/65 md:text-lg">
+                        <Mark text={item.a} query={q} />
+                        <div className="mt-6 flex">
+                          <a
+                            href={whatsappFAQHref(item.q)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 rounded-full bg-[#25D366]/10 px-4 py-2 text-xs font-bold text-[#1a9e4c] transition-colors hover:bg-[#25D366]/20"
+                          >
+                            {t.faq.askMe}
+                          </a>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               </motion.div>
             ))}
-          </Accordion>
+          </AnimatePresence>
+        </div>
 
-          {/* Empty state */}
-          {filtered.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              className="rounded-3xl border border-dashed border-aura-ink/15 bg-white/40 p-8 text-center"
+        {filtered.length === 0 && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-20 text-center">
+            <p className="text-aura-ink/50">{t.faq.search.empty} <span className="font-bold text-aura-ink">"{query}"</span></p>
+            <button onClick={handleClear} className="mt-4 text-xs font-bold uppercase tracking-widest text-aura-peach underline decoration-aura-peach/30 underline-offset-4">{t.faq.viewAll}</button>
+          </motion.div>
+        )}
+
+        {q.length === 0 && active === "all" && activeTags.length > 2 && (
+          <div className="mt-16 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setShowAll(!showAll)}
+              className="group flex items-center gap-3 rounded-full border border-aura-ink/10 bg-white/60 px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-aura-ink/60 transition-all hover:border-aura-ink/30 hover:bg-white hover:text-aura-ink"
             >
-              <p className="text-aura-ink/70">
-                {t.faq.search.empty} <span className="font-medium text-aura-ink">"{query}"</span>.
-              </p>
-              <button
-                type="button"
-                onClick={() => { setQuery(""); setActive("all"); inputRef.current?.focus(); }}
-                className="mt-4 inline-flex items-center gap-2 rounded-full border border-aura-ink/15 bg-white/70 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-aura-ink/70 transition-colors hover:text-aura-ink"
-              >
-                <X className="h-3.5 w-3.5" aria-hidden /> {t.faq.search.clear}
-              </button>
-            </motion.div>
-          )}
+              {showAll ? t.faq.showLess : t.faq.showMore}
+              <motion.div animate={{ rotate: showAll ? 180 : 0 }} transition={{ duration: 0.4, ease: EASE }}>
+                <ArrowRight className="h-4 w-4" />
+              </motion.div>
+            </button>
+          </div>
+        )}
 
-          {/* Mobile CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6, ease: EASE }}
-            className="mt-10 rounded-3xl border border-aura-ink/10 bg-gradient-to-br from-aura-peach/15 via-white/40 to-aura-lavender/15 p-6 backdrop-blur md:hidden"
-          >
-            <p className="font-display text-xl tracking-tight text-aura-ink">{t.faq.cta.title}</p>
-            <p className="mt-2 text-sm text-aura-ink/65">{t.faq.cta.body}</p>
-            <div className="mt-5">
-              <MagneticButton
-                asLink
-                href="#contact"
-                variant="dark"
-                className="px-5 py-3 text-sm"
-                onClick={() => track("cta_click", { location: "faq_card_mobile" })}
-              >
-                <span className="inline-flex items-center gap-2">
-                  {t.faq.cta.button} <ArrowRight className="h-4 w-4" />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative mt-24 overflow-hidden rounded-[2.5rem] bg-aura-ink p-8 text-center text-aura-cream shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] md:p-14"
+        >
+          {/* Background Aura Effects */}
+          <div aria-hidden className="aura-blend-overlay pointer-events-none absolute inset-0 -z-0 overflow-hidden">
+            <div className="absolute -left-[10%] top-[10%] h-[50vmax] w-[50vmax] rounded-full opacity-25" style={{ background: "hsl(var(--aura-lavender))", filter: "blur(120px)" }} />
+            <div className="absolute -right-[10%] bottom-[10%] h-[45vmax] w-[45vmax] rounded-full opacity-20" style={{ background: "hsl(var(--aura-peach))", filter: "blur(120px)" }} />
+            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
+          </div>
+
+          <div className="relative z-10">
+            <h3 className="font-display text-3xl tracking-tight text-white md:text-4xl">{t.faq.cta.title}</h3>
+            <p className="mx-auto mt-4 max-w-lg text-white/60 md:text-lg">{t.faq.cta.body}</p>
+            <div className="mt-10 flex justify-center">
+              <MagneticButton asLink href="#contact" variant="light" className="px-10 py-5 text-base font-semibold">
+                <span className="flex items-center gap-2">
+                  {t.faq.cta.button} <ArrowRight className="h-5 w-5" />
                 </span>
               </MagneticButton>
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
-function Chip({
-  children, active, onClick,
-}: {
-  children: React.ReactNode;
-  active?: boolean;
-  onClick?: () => void;
-}) {
+function Chip({ children, active, onClick }: { children: React.ReactNode; active?: boolean; onClick?: () => void; }) {
   return (
     <button
       type="button"

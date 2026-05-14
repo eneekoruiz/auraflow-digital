@@ -81,12 +81,14 @@ export function SEO() {
     setMetaByName("twitter:image", ogImage);
     setMetaByName("twitter:image:alt", `${ogTitle} ${ogTitleAccent}`);
 
-    // Canonical + hreflang alternates (relative — works on any domain)
-    setLink("canonical", "/");
+    // Canonical + hreflang alternates (absolute)
+    const base = "https://TUDOMINIO.com";
+    setLink("canonical", `${base}${lang === "es" ? "/" : `/?lang=${lang}`}`);
     LANGUAGES.forEach((l) => {
-      setLink("alternate", `/?lang=${l.code}`, { hreflang: l.code });
+      setLink("alternate", `${base}/?lang=${l.code}`, { hreflang: l.code });
     });
-    setLink("alternate", "/", { hreflang: "x-default" });
+    setLink("alternate", `${base}/`, { hreflang: "x-default" });
+
   }, [t, lang]);
 
   return null;

@@ -2,16 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/</loc>
+    <loc>https://TUDOMINIO.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="/?lang=es" />
-    <xhtml:link rel="alternate" hreflang="en" href="/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="fr" href="/?lang=fr" />
-    <xhtml:link rel="alternate" hreflang="de" href="/?lang=de" />
-    <xhtml:link rel="alternate" hreflang="it" href="/?lang=it" />
-    <xhtml:link rel="alternate" hreflang="pt" href="/?lang=pt" />
-    <xhtml:link rel="alternate" hreflang="ca" href="/?lang=ca" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://TUDOMINIO.com/?lang=es" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://TUDOMINIO.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://TUDOMINIO.com/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://TUDOMINIO.com/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://TUDOMINIO.com/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://TUDOMINIO.com/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="ca" href="https://TUDOMINIO.com/?lang=ca" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://TUDOMINIO.com/" />
   </url>
+
 </urlset>

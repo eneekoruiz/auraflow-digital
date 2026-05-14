@@ -71,38 +71,22 @@ export function Testimonials() {
   const mono = monograms[index % monograms.length];
 
   return (
-    <section className="relative px-4 py-8 sm:px-6 sm:py-10 md:py-12">
+    <section className="relative px-4 py-10 sm:px-6 sm:py-16 md:py-20">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
-            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.testimonials.label}</p>
-            <h2 className="text-balance font-display text-[clamp(2rem,7vw,4.5rem)] leading-[0.95] tracking-tighter text-aura-ink">
-              {t.testimonials.title}
+        <div className="mb-12 flex flex-col gap-6 sm:mb-16">
+          <p className="text-xs uppercase tracking-[0.3em] text-aura-ink/40">— {t.testimonials.label}</p>
+          
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <h2 className="text-balance font-display text-[clamp(2.5rem,8vw,5rem)] leading-[0.85] tracking-tighter text-aura-ink">
+              {t.testimonials.title.split(".")[0]}.
             </h2>
-          </div>
-
-          {/* Controls (desktop) */}
-          <div className="hidden items-center gap-2 sm:flex" role="group" aria-label="Carousel controls">
-            <button
-              type="button"
-              onClick={prev}
-              aria-label="Previous testimonial"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-aura-ink/15 bg-white/60 text-aura-ink transition-all hover:-translate-y-0.5 hover:bg-white"
-            >
-              <ChevronLeft className="h-4 w-4" aria-hidden />
-            </button>
-            <button
-              type="button"
-              onClick={next}
-              aria-label="Next testimonial"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-aura-ink/15 bg-white/60 text-aura-ink transition-all hover:-translate-y-0.5 hover:bg-white"
-            >
-              <ChevronRight className="h-4 w-4" aria-hidden />
-            </button>
+            <h2 className="text-balance font-display text-[clamp(2.5rem,8vw,5rem)] leading-[0.85] tracking-tighter text-aura-peach sm:text-right">
+              {t.testimonials.title.split(".")[1]}
+            </h2>
           </div>
         </div>
 
-        {/* Live region */}
+        {/* Live region — The Carousel Card */}
         <div
           ref={regionRef}
           role="region"
@@ -114,9 +98,9 @@ export function Testimonials() {
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
           onBlur={() => setPaused(false)}
-          className="relative overflow-hidden rounded-3xl border border-aura-ink/10 bg-white/60 p-5 backdrop-blur-xl sm:p-8 md:p-10"
+          className="group relative texture-glass overflow-hidden rounded-[2.5rem] border border-aura-ink/5 bg-white/60 p-8 backdrop-blur-2xl sm:p-12 md:p-16"
         >
-          <div aria-live="polite" aria-atomic="true" className="relative min-h-[200px] sm:min-h-[160px]">
+          <div aria-live="polite" aria-atomic="true" className="relative min-h-[220px] sm:min-h-[180px]">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.figure
                 key={index}
@@ -129,20 +113,20 @@ export function Testimonials() {
                 aria-label={`${index + 1} of ${count}`}
                 className="flex flex-col"
               >
-                <Quote className="mb-5 h-7 w-7 text-aura-peach" aria-hidden />
-                <blockquote className="mb-5 max-w-3xl text-balance font-display text-[clamp(1.1rem,2.6vw,1.65rem)] leading-[1.3] tracking-tight text-aura-ink">
+                <Quote className="mb-6 h-8 w-8 text-aura-peach" aria-hidden />
+                <blockquote className="mb-8 max-w-3xl text-balance text-lg leading-relaxed tracking-tight text-aura-ink md:text-2xl">
                   "{item.quote}"
                 </blockquote>
-                <div className="mb-5 flex items-center gap-1 text-aura-peach" aria-label="5 out of 5 stars">
+                <div className="mb-6 flex items-center gap-1 text-aura-peach" aria-label="5 out of 5 stars">
                   {Array.from({ length: 5 }).map((_, s) => (
-                    <Star key={s} className="h-3.5 w-3.5 fill-current" aria-hidden />
+                    <Star key={s} className="h-4 w-4 fill-current" aria-hidden />
                   ))}
                 </div>
-                <figcaption className="flex items-center gap-3">
+                <figcaption className="flex items-center gap-4">
                   <span
                     aria-hidden
                     className={cn(
-                      "flex h-12 w-12 items-center justify-center rounded-full font-display text-base tracking-tight ring-1 text-aura-ink",
+                      "flex h-14 w-14 items-center justify-center rounded-full font-display text-lg tracking-tight ring-1 text-aura-ink",
                       mono.bg,
                       mono.ring,
                     )}
@@ -150,17 +134,17 @@ export function Testimonials() {
                     {initials(item.name)}
                   </span>
                   <div className="leading-tight">
-                    <div className="font-medium text-aura-ink">{item.name}</div>
-                    <div className="text-xs text-aura-ink/50">{item.role}</div>
+                    <div className="text-base font-semibold text-aura-ink">{item.name}</div>
+                    <div className="text-xs font-medium text-aura-ink/40 uppercase tracking-widest mt-0.5">{item.role}</div>
                   </div>
                 </figcaption>
               </motion.figure>
             </AnimatePresence>
           </div>
 
-          {/* Bottom: dots + mobile arrows */}
-          <div className="mt-8 flex items-center justify-between gap-4 border-t border-aura-ink/10 pt-6">
-            <div className="flex items-center gap-2" role="tablist" aria-label="Select testimonial">
+          {/* Integrated Controls Hub */}
+          <div className="mt-10 flex items-center justify-between gap-6 border-t border-aura-ink/5 pt-8">
+            <div className="flex items-center gap-2.5" role="tablist" aria-label="Select testimonial">
               {items.map((_, i) => {
                 const active = i === index;
                 return (
@@ -173,29 +157,29 @@ export function Testimonials() {
                     onClick={() => go(i)}
                     className={cn(
                       "h-1.5 rounded-full transition-all duration-500",
-                      active ? "w-8 bg-aura-ink" : "w-3 bg-aura-ink/20 hover:bg-aura-ink/40",
+                      active ? "w-10 bg-aura-ink" : "w-3 bg-aura-ink/10 hover:bg-aura-ink/25",
                     )}
                   />
                 );
               })}
             </div>
 
-            <div className="flex items-center gap-2 sm:hidden">
+            <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={prev}
                 aria-label="Previous testimonial"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-aura-ink/15 bg-white/70 text-aura-ink"
+                className="group inline-flex h-12 w-12 items-center justify-center rounded-full border border-aura-ink/10 bg-white text-aura-ink shadow-sm transition-all hover:bg-aura-ink hover:text-white active:scale-95"
               >
-                <ChevronLeft className="h-4 w-4" aria-hidden />
+                <ChevronLeft className="h-5 w-5 transition-transform group-hover:-translate-x-0.5" aria-hidden />
               </button>
               <button
                 type="button"
                 onClick={next}
                 aria-label="Next testimonial"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-aura-ink/15 bg-white/70 text-aura-ink"
+                className="group inline-flex h-12 w-12 items-center justify-center rounded-full border border-aura-ink/10 bg-white text-aura-ink shadow-sm transition-all hover:bg-aura-ink hover:text-white active:scale-95"
               >
-                <ChevronRight className="h-4 w-4" aria-hidden />
+                <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </button>
             </div>
           </div>

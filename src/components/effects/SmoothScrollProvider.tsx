@@ -37,7 +37,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       const el = document.querySelector(id);
       if (!el) return;
       e.preventDefault();
-      lenis.scrollTo(el as HTMLElement, { offset: -20, duration: 1.4 });
+      const offset = id === "#contact" ? 0 : -80;
+      lenis.scrollTo(el as HTMLElement, { offset, duration: 1.4 });
     };
     document.addEventListener("click", onClick);
 

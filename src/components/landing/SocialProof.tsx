@@ -1,6 +1,7 @@
 import { Star, Clock, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLang } from "@/i18n/LanguageProvider";
+import { cn } from "@/lib/utils";
 
 /**
  * Trust strip directly under the hero CTA. Surfacing concrete trust signals
@@ -15,19 +16,26 @@ export function SocialProof() {
     { icon: ShieldCheck, label: t.hero.proof.noContract },
   ];
   return (
-    <motion.ul
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
-      className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-aura-ink/60 sm:text-sm"
-      aria-label="trust signals"
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
+      className="texture-glass hidden flex-col gap-0 overflow-hidden rounded-[2rem] border border-aura-ink/5 bg-white/50 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] backdrop-blur-xl md:flex"
     >
-      {items.map(({ icon: Icon, label }) => (
-        <li key={label} className="inline-flex items-center gap-2">
-          <Icon className="h-3.5 w-3.5 text-aura-ink/50" aria-hidden />
-          <span>{label}</span>
-        </li>
-      ))}
-    </motion.ul>
+      <ul className="flex flex-col">
+        {items.map(({ icon: Icon, label }, i) => (
+          <li 
+            key={label} 
+            className={cn(
+              "flex items-center gap-4 px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-aura-ink/50",
+              i > 0 && "border-t border-aura-ink/5"
+            )}
+          >
+            <Icon className="h-4 w-4 text-aura-peach/80" aria-hidden />
+            <span>{label}</span>
+          </li>
+        ))}
+      </ul>
+    </motion.div>
   );
 }
