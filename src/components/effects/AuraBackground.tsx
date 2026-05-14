@@ -51,13 +51,14 @@ export function AuraBackground({ dim = false }: { dim?: boolean }) {
           width: "60vmax",
           height: "60vmax",
           background: "hsl(var(--aura-lavender))",
-          filter: "blur(160px)",
+          filter: "blur(80px)",
           opacity,
-          willChange: reduced ? "auto" : "transform",
+          willChange: "transform",
           x: reduced ? 0 : sx,
           y: reduced ? 0 : sy,
           left: "-15%",
           top: "-20%",
+          zIndex: -1,
         }}
         animate={animate(["0%", "10%", "-5%", "0%"], ["0%", "8%", "-6%", "0%"], [1, 1.12, 0.96, 1])}
         transition={{ duration: dur(38), repeat: Infinity, ease: "easeInOut" }}
@@ -69,13 +70,14 @@ export function AuraBackground({ dim = false }: { dim?: boolean }) {
           width: "55vmax",
           height: "55vmax",
           background: "hsl(var(--aura-mint))",
-          filter: "blur(170px)",
+          filter: "blur(90px)",
           opacity: opacity * 0.9,
-          willChange: reduced ? "auto" : "transform",
+          willChange: "transform",
           x: reduced ? 0 : sx,
           y: reduced ? 0 : sy,
           right: "-10%",
           top: "10%",
+          zIndex: -1,
         }}
         animate={animate(["0%", "-12%", "6%", "0%"], ["0%", "10%", "-4%", "0%"], [1, 0.92, 1.1, 1])}
         transition={{ duration: dur(46), repeat: Infinity, ease: "easeInOut" }}
@@ -87,13 +89,14 @@ export function AuraBackground({ dim = false }: { dim?: boolean }) {
           width: "50vmax",
           height: "50vmax",
           background: "hsl(var(--aura-peach))",
-          filter: "blur(160px)",
+          filter: "blur(80px)",
           opacity: opacity * 0.85,
-          willChange: reduced ? "auto" : "transform",
+          willChange: "transform",
           x: reduced ? 0 : sx,
           y: reduced ? 0 : sy,
           left: "20%",
           bottom: "-20%",
+          zIndex: -1,
         }}
         animate={animate(["0%", "14%", "-8%", "0%"], ["0%", "-10%", "4%", "0%"], [1, 1.1, 0.95, 1])}
         transition={{ duration: dur(52), repeat: Infinity, ease: "easeInOut" }}

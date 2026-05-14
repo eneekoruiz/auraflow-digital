@@ -44,7 +44,7 @@ export function ComparisonTable() {
         <motion.div
           onViewportEnter={() => track("comparison_table_viewed")}
           viewport={{ once: true, margin: "-100px" }}
-          className="texture-glass relative overflow-hidden rounded-[2.5rem] border border-aura-ink/5 bg-white/40 backdrop-blur-2xl shadow-[0_40px_100px_-30px_rgba(0,0,0,0.1)]"
+          className="texture-glass relative overflow-x-auto rounded-[2.5rem] border border-aura-ink/5 bg-white/40 backdrop-blur-2xl shadow-[0_40px_100px_-30px_rgba(0,0,0,0.1)]"
         >
           <TableHeader columns={t.comparison.columns} />
           <div className="divide-y divide-aura-ink/5">

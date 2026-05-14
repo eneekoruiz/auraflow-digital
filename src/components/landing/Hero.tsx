@@ -19,14 +19,20 @@ export function Hero() {
   const backgroundScale = useTransform(scrollY, [0, 500], [1, 1.15]);
 
   useEffect(() => {
+    let frameId: number;
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
+      frameId = requestAnimationFrame(() => {
+        setMousePos({
+          x: (e.clientX / window.innerWidth - 0.5) * 20,
+          y: (e.clientY / window.innerHeight - 0.5) * 20,
+        });
       });
     };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(frameId);
+    };
   }, []);
 
   return (
@@ -84,7 +90,7 @@ export function Hero() {
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 1.2, delay: 0.2, ease: EASE }}
-            className="mx-auto max-w-[15ch] text-balance font-display text-[clamp(2.75rem,11vw,8rem)] leading-[0.85] tracking-tighter text-aura-ink"
+            className="mx-auto max-w-[15ch] text-balance font-display text-[clamp(2.5rem,9vw,6.5rem)] leading-[0.85] tracking-tighter text-aura-ink"
           >
             {t.hero.title.join(" ")}
           </motion.h1>

@@ -29,7 +29,7 @@ export function BentoServices() {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
           {t.services.cards.map((card, i) => (
             <ServiceCard 
               key={card.tag} 

@@ -16,7 +16,7 @@ export function LegalLayout({ title, children }: LegalLayoutProps) {
       <AuraBackground dim />
       <CustomCursor />
       <Nav />
-      <main className="relative z-10 mx-auto max-w-4xl px-6 pb-24 pt-40">
+      <main className="relative z-10 mx-auto max-w-6xl px-6 pb-24 pt-40">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
