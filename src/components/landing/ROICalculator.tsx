@@ -38,7 +38,7 @@ export function ROICalculator() {
   return (
     <section id="roi" className="relative px-4 py-10 sm:px-6 sm:py-16 md:py-20" ref={containerRef}>
       <div className="mx-auto max-w-6xl">
-        <ROIHeader title={t.roi.title} subtitle={t.roi.subtitle} />
+        <ROIHeader title={t.roi.title} subtitle={t.roi.subtitle} t={t.roi} />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
           <ROIControls 
@@ -62,7 +62,7 @@ export function ROICalculator() {
 /**
  * ROIHeader Component
  */
-function ROIHeader({ title, subtitle }: { title: string; subtitle: string }) {
+function ROIHeader({ title, subtitle, t }: { title: string; subtitle: string; t: any }) {
   return (
     <div className="mb-8 flex flex-col items-center text-center">
       <motion.p
@@ -80,12 +80,12 @@ function ROIHeader({ title, subtitle }: { title: string; subtitle: string }) {
         transition={{ delay: 0.1, duration: 0.8, ease: EASE }}
         className="font-display text-[clamp(1.75rem,6vw,3.5rem)] leading-[0.95] tracking-tighter text-aura-ink"
       >
-        {title.split(` ${t.roi.noHighlight} `).map((part, i) => (
+        {title.split(` ${t.noHighlight} `).map((part, i) => (
           <span key={i}>
             {part}
             {i === 0 && (
               <span className="relative inline-block px-2">
-                <span className="relative z-10 font-black text-aura-peach uppercase">{t.roi.noHighlight}</span>
+                <span className="relative z-10 font-black text-aura-peach uppercase">{t.noHighlight}</span>
                 <motion.span
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
