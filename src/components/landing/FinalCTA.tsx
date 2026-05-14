@@ -17,7 +17,7 @@ const schema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(255),
   gdpr: z.literal(true, {
-    errorMap: () => ({ message: "Debes aceptar la política de privacidad" }),
+    message: "Debes aceptar la política de privacidad",
   }),
 });
 

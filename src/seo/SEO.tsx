@@ -48,7 +48,7 @@ export function SEO() {
 
     // <html lang="..."> + dir for RTL
     document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = "ltr";
 
     // Title + description
     document.title = title;
