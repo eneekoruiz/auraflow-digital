@@ -12,6 +12,14 @@ npm run dev
 npm run build
 ```
 
+## Screenshots
+
+![Homepage](public/screenshots/home.png)
+
+## Social preview
+
+GitHub social preview asset: `public/og.png`
+
 ## Links
 
 - DeepWiki: https://deepwiki.com/eneekoruiz/auraflow-digital
