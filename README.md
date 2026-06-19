@@ -20,6 +20,10 @@ npm run build
 
 GitHub social preview asset: `public/og.png`
 
+## Architecture
+
+This is a client-side React application built by Vite. Components and local assets live under `src`, and the production build emits static files; the repository does not include a backend or persistent data layer.
+
 ## Links
 
 - DeepWiki: https://deepwiki.com/eneekoruiz/auraflow-digital
