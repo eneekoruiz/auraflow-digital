@@ -1,8 +1,12 @@
-# auraflow-digital
+# auraflow-digital · Estudio Web & Automatización
 
-Vite-based React application.
+[![CI — Build & Lint](https://github.com/eneekoruiz/auraflow-digital/actions/workflows/ci.yml/badge.svg)](https://github.com/eneekoruiz/auraflow-digital/actions/workflows/ci.yml)
+[![Live Demo](https://img.shields.io/badge/Demo-auraflow--digital.vercel.app-0070f3?style=flat&logo=vercel&logoColor=white)](https://auraflow-digital.vercel.app)
 
-The repository was previously using a placeholder README. This version keeps the documentation short until the implementation is documented in the codebase.
+> 🌐 **Despliegue en vivo:** [https://auraflow-digital.vercel.app](https://auraflow-digital.vercel.app)
+
+Sitio web y plataforma para estudio digital especializado en diseño web y automatización para negocios locales. Construido con React, TypeScript, Vite, Tailwind CSS, Framer Motion y Supabase.
+
 
 ## Local development
 
